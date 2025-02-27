@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.PTBHanghoa = new System.Windows.Forms.PictureBox();
+            this.BtnBoChonHInh = new System.Windows.Forms.Button();
+            this.BtnChonHinh = new System.Windows.Forms.Button();
+            this.TxtDVTinh = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.NumricSoLuong = new System.Windows.Forms.NumericUpDown();
             this.TxtGiaBan = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -71,20 +77,14 @@
             this.BtnThemLMH = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.TxtDVTinh = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.PTBHanghoa = new System.Windows.Forms.PictureBox();
-            this.BtnChonHinh = new System.Windows.Forms.Button();
-            this.BtnBoChonHInh = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PTBHanghoa)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumricSoLuong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvHangHoa)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNhomHang)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PTBHanghoa)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage2
@@ -128,6 +128,63 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Hàng Hoá";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.PTBHanghoa);
+            this.groupBox1.Location = new System.Drawing.Point(807, 7);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(222, 179);
+            this.groupBox1.TabIndex = 47;
+            this.groupBox1.TabStop = false;
+            // 
+            // PTBHanghoa
+            // 
+            this.PTBHanghoa.Location = new System.Drawing.Point(6, 10);
+            this.PTBHanghoa.Name = "PTBHanghoa";
+            this.PTBHanghoa.Size = new System.Drawing.Size(210, 164);
+            this.PTBHanghoa.TabIndex = 44;
+            this.PTBHanghoa.TabStop = false;
+            // 
+            // BtnBoChonHInh
+            // 
+            this.BtnBoChonHInh.Location = new System.Drawing.Point(923, 193);
+            this.BtnBoChonHInh.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnBoChonHInh.Name = "BtnBoChonHInh";
+            this.BtnBoChonHInh.Size = new System.Drawing.Size(100, 28);
+            this.BtnBoChonHInh.TabIndex = 46;
+            this.BtnBoChonHInh.Text = "Bỏ Chọn";
+            this.BtnBoChonHInh.UseVisualStyleBackColor = true;
+            this.BtnBoChonHInh.Click += new System.EventHandler(this.BtnBoChonHInh_Click);
+            // 
+            // BtnChonHinh
+            // 
+            this.BtnChonHinh.Location = new System.Drawing.Point(807, 193);
+            this.BtnChonHinh.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnChonHinh.Name = "BtnChonHinh";
+            this.BtnChonHinh.Size = new System.Drawing.Size(100, 28);
+            this.BtnChonHinh.TabIndex = 45;
+            this.BtnChonHinh.Text = "Chọn hình";
+            this.BtnChonHinh.UseVisualStyleBackColor = true;
+            this.BtnChonHinh.Click += new System.EventHandler(this.BtnChonHinh_Click);
+            // 
+            // TxtDVTinh
+            // 
+            this.TxtDVTinh.Location = new System.Drawing.Point(150, 249);
+            this.TxtDVTinh.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtDVTinh.Name = "TxtDVTinh";
+            this.TxtDVTinh.Size = new System.Drawing.Size(214, 22);
+            this.TxtDVTinh.TabIndex = 42;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(14, 252);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(81, 16);
+            this.label13.TabIndex = 43;
+            this.label13.Text = "Đơn Vị Tính :";
             // 
             // NumricSoLuong
             // 
@@ -564,63 +621,6 @@
             this.tabControl1.Size = new System.Drawing.Size(1109, 628);
             this.tabControl1.TabIndex = 0;
             // 
-            // TxtDVTinh
-            // 
-            this.TxtDVTinh.Location = new System.Drawing.Point(150, 249);
-            this.TxtDVTinh.Margin = new System.Windows.Forms.Padding(4);
-            this.TxtDVTinh.Name = "TxtDVTinh";
-            this.TxtDVTinh.Size = new System.Drawing.Size(214, 22);
-            this.TxtDVTinh.TabIndex = 42;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(14, 252);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(81, 16);
-            this.label13.TabIndex = 43;
-            this.label13.Text = "Đơn Vị Tính :";
-            // 
-            // PTBHanghoa
-            // 
-            this.PTBHanghoa.Location = new System.Drawing.Point(6, 10);
-            this.PTBHanghoa.Name = "PTBHanghoa";
-            this.PTBHanghoa.Size = new System.Drawing.Size(210, 164);
-            this.PTBHanghoa.TabIndex = 44;
-            this.PTBHanghoa.TabStop = false;
-            // 
-            // BtnChonHinh
-            // 
-            this.BtnChonHinh.Location = new System.Drawing.Point(807, 193);
-            this.BtnChonHinh.Margin = new System.Windows.Forms.Padding(4);
-            this.BtnChonHinh.Name = "BtnChonHinh";
-            this.BtnChonHinh.Size = new System.Drawing.Size(100, 28);
-            this.BtnChonHinh.TabIndex = 45;
-            this.BtnChonHinh.Text = "Chọn hình";
-            this.BtnChonHinh.UseVisualStyleBackColor = true;
-            this.BtnChonHinh.Click += new System.EventHandler(this.BtnChonHinh_Click);
-            // 
-            // BtnBoChonHInh
-            // 
-            this.BtnBoChonHInh.Location = new System.Drawing.Point(923, 193);
-            this.BtnBoChonHInh.Margin = new System.Windows.Forms.Padding(4);
-            this.BtnBoChonHInh.Name = "BtnBoChonHInh";
-            this.BtnBoChonHInh.Size = new System.Drawing.Size(100, 28);
-            this.BtnBoChonHInh.TabIndex = 46;
-            this.BtnBoChonHInh.Text = "Bỏ Chọn";
-            this.BtnBoChonHInh.UseVisualStyleBackColor = true;
-            this.BtnBoChonHInh.Click += new System.EventHandler(this.BtnBoChonHInh_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.PTBHanghoa);
-            this.groupBox1.Location = new System.Drawing.Point(807, 7);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(222, 179);
-            this.groupBox1.TabIndex = 47;
-            this.groupBox1.TabStop = false;
-            // 
             // QLDanhMucMHForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -633,14 +633,14 @@
             this.Load += new System.EventHandler(this.QLDanhMucMHForm_Load);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PTBHanghoa)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumricSoLuong)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvHangHoa)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNhomHang)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PTBHanghoa)).EndInit();
-            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

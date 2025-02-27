@@ -40,5 +40,11 @@ namespace QLBANHANG
             QLQuyenNVForm qLQuyenNVForm = new QLQuyenNVForm();
             qLQuyenNVForm.Show();
         }
+
+        private void kháchHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            QLDanhMucKHForm qLDanhMucKHForm = new QLDanhMucKHForm();
+            qLDanhMucKHForm.Show();
+        }
     }
 }

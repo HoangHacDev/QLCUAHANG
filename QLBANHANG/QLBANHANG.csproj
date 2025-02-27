@@ -123,8 +123,11 @@
       <DependentUpon>ĐangNhapForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Handlers\HangHoaHandler.cs" />
+    <Compile Include="Handlers\KhachHangHandler.cs" />
     <Compile Include="Handlers\NhomHangHandler.cs" />
     <Compile Include="Models\HangHoaModel.cs" />
+    <Compile Include="Models\KhachHangModel.cs" />
+    <Compile Include="Models\NhanVienModel.cs" />
     <Compile Include="Services\ConnectionString.cs" />
     <Compile Include="Forms\QLDanhMucKHForm.cs">
       <SubType>Form</SubType>
@@ -160,6 +163,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\HangHoaServices.cs" />
+    <Compile Include="Services\KhachHangServices.cs" />
+    <Compile Include="Services\NhanVienServices.cs" />
     <Compile Include="Services\NhomHangServices.cs" />
     <EmbeddedResource Include="Forms\QLDanhMucKHForm.resx">
       <DependentUpon>QLDanhMucKHForm.cs</DependentUpon>
