@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QLBANHANG
+namespace QLBANHANG.Forms
 {
-    public partial class QLDanhMucBaoCaoMHForm: Form
+    public partial class ThemDonHangNhap : Form
     {
-        public QLDanhMucBaoCaoMHForm()
+        public ThemDonHangNhap()
         {
             InitializeComponent();
         }

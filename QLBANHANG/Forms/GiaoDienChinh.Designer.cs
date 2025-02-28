@@ -111,14 +111,15 @@
             this.báoCáoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.hàngHóaToolStripMenuItem});
             this.báoCáoToolStripMenuItem.Name = "báoCáoToolStripMenuItem";
-            this.báoCáoToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
-            this.báoCáoToolStripMenuItem.Text = "Báo Cáo";
+            this.báoCáoToolStripMenuItem.Size = new System.Drawing.Size(174, 24);
+            this.báoCáoToolStripMenuItem.Text = "Quản Lý Nhà Cung Cấp";
             // 
             // hàngHóaToolStripMenuItem
             // 
             this.hàngHóaToolStripMenuItem.Name = "hàngHóaToolStripMenuItem";
-            this.hàngHóaToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
-            this.hàngHóaToolStripMenuItem.Text = "Hàng Hóa";
+            this.hàngHóaToolStripMenuItem.Size = new System.Drawing.Size(259, 26);
+            this.hàngHóaToolStripMenuItem.Text = "Danh sách Nhà Cung Cấp";
+            this.hàngHóaToolStripMenuItem.Click += new System.EventHandler(this.hàngHóaToolStripMenuItem_Click);
             // 
             // quảnLýKháchHàngToolStripMenuItem
             // 

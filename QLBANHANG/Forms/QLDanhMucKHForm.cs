@@ -82,7 +82,7 @@ namespace QLBANHANG
         private void BtnThoatFormQLKH_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(
-           "Bạn có chắc chắn muốn thoát Quản lý Danh Khách Hàng không?",
+           "Bạn có chắc chắn muốn thoát Quản lý Khách Hàng không?",
            "Xác nhận thoát",
            MessageBoxButtons.YesNo,
            MessageBoxIcon.Question);

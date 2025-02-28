@@ -82,7 +82,6 @@ CREATE TABLE tblChitietHoadonnhaphang (
     FOREIGN KEY (ID_HangHoa) REFERENCES tblHangHoa(ID_HangHoa)
 );
 
--- Chua FIX
 
 CREATE TABLE tblHoadonbanhang (
     ID_HoaDonBan VARCHAR(6) PRIMARY KEY,
@@ -695,20 +694,66 @@ BEGIN
     END
 
     -- SELECT: Lấy dữ liệu hóa đơn nhập và chi tiết
-    ELSE IF @Action = 'SELECT'
-    BEGIN
-        IF @ID_HoaDonNhap IS NULL
-            SELECT h.ID_HoaDonNhap, h.NgayNhap, h.TongTien, h.GhiChu, h.ID_NhanVien, h.ID_NhaCungCap,
-                   c.ID_HangHoa, c.SoLuong, c.DonGia, c.ThanhTien
-            FROM tblHoadonnhaphang h
-            LEFT JOIN tblChitietHoadonnhaphang c ON h.ID_HoaDonNhap = c.ID_HoaDonNhap;
-        ELSE
-            SELECT h.ID_HoaDonNhap, h.NgayNhap, h.TongTien, h.GhiChu, h.ID_NhanVien, h.ID_NhaCungCap,
-                   c.ID_HangHoa, c.SoLuong, c.DonGia, c.ThanhTien
-            FROM tblHoadonnhaphang h
-            LEFT JOIN tblChitietHoadonnhaphang c ON h.ID_HoaDonNhap = c.ID_HoaDonNhap
-            WHERE h.ID_HoaDonNhap = @ID_HoaDonNhap;
-    END
+		ELSE IF @Action = 'SELECT'
+		BEGIN
+			IF @ID_HoaDonNhap IS NULL
+				SELECT 
+					h.ID_HoaDonNhap, 
+					h.NgayNhap, 
+					h.TongTien, 
+					h.GhiChu, 
+					h.ID_NhanVien, 
+					nv.HoTen,      -- Tên nhân viên
+					h.ID_NhaCungCap, 
+					ncc.TenNhaCungCap,  -- Tên nhà cung cấp
+					c.ID_HangHoa, 
+					c.SoLuong, 
+					c.DonGia, 
+					c.ThanhTien
+				FROM tblHoadonnhaphang h
+				LEFT JOIN tblNhanVien nv ON h.ID_NhanVien = nv.ID_NhanVien         -- JOIN với bảng nhân viên
+				LEFT JOIN tblNhaCungCap ncc ON h.ID_NhaCungCap = ncc.ID_NhaCungCap -- JOIN với bảng nhà cung cấp
+				LEFT JOIN tblChitietHoadonnhaphang c ON h.ID_HoaDonNhap = c.ID_HoaDonNhap;
+			ELSE
+				SELECT 
+					h.ID_HoaDonNhap, 
+					h.NgayNhap, 
+					h.TongTien, 
+					h.GhiChu, 
+					h.ID_NhanVien, 
+					nv.HoTen,      -- Tên nhân viên
+					h.ID_NhaCungCap, 
+					ncc.TenNhaCungCap,  -- Tên nhà cung cấp
+					c.ID_HangHoa, 
+					c.SoLuong, 
+					c.DonGia, 
+					c.ThanhTien
+				FROM tblHoadonnhaphang h
+				LEFT JOIN tblNhanVien nv ON h.ID_NhanVien = nv.ID_NhanVien         -- JOIN với bảng nhân viên
+				LEFT JOIN tblNhaCungCap ncc ON h.ID_NhaCungCap = ncc.ID_NhaCungCap -- JOIN với bảng nhà cung cấp
+				LEFT JOIN tblChitietHoadonnhaphang c ON h.ID_HoaDonNhap = c.ID_HoaDonNhap
+				WHERE h.ID_HoaDonNhap = @ID_HoaDonNhap;
+		END
+
+		ELSE IF @Action = 'SELECT_DETAIL'
+	BEGIN
+		IF @ID_HoaDonNhap IS NULL
+		BEGIN
+			RAISERROR ('ID_HoaDonNhap cannot be NULL for SELECT_DETAIL action.', 16, 1);
+			RETURN;
+		END
+
+		SELECT 
+			c.ID_HoaDonNhap,
+			c.ID_HangHoa,
+			hh.TenHangHoa,  -- Tên hàng hóa từ tblHangHoa
+			c.SoLuong,
+			c.DonGia,
+			c.ThanhTien
+		FROM tblChitietHoadonnhaphang c
+		INNER JOIN tblHangHoa hh ON c.ID_HangHoa = hh.ID_HangHoa  -- JOIN với tblHangHoa để lấy TenHangHoa
+		WHERE c.ID_HoaDonNhap = @ID_HoaDonNhap;
+	END
 
     -- UPDATE: Cập nhật hóa đơn nhập hàng
     ELSE IF @Action = 'UPDATE'
@@ -819,156 +864,7 @@ BEGIN
     BEGIN
         RAISERROR ('Invalid Action. Use INSERT, SELECT, UPDATE, DELETE, INSERT_DETAIL, UPDATE_DETAIL, or DELETE_DETAIL.', 16, 1);
     END
-END;
-GO
 
-CREATE PROCEDURE sp_HoaDon_CRUD1
-    @Action VARCHAR(20),
-    @ID_HoaDonBan VARCHAR(6) = NULL,
-    @ID_NhanVien VARCHAR(6) = NULL,
-    @ID_KhachHang VARCHAR(6) = NULL,
-    @NgayBan DATE = NULL,
-    @TongTien INT = NULL,
-    @DaThuTien BIT = NULL,
-    @ID_HangHoa VARCHAR(6) = NULL,
-    @SoLuong INT = NULL,
-    @QuiCach NVARCHAR(255) = NULL,
-    @GiaBan INT = NULL,
-    @BaoHanh NVARCHAR(255) = NULL
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    -- INSERT: Thêm mới hóa đơn bán hàng
-    IF @Action = 'INSERT'
-    BEGIN
-        DECLARE @NextID INT;
-        DECLARE @NewCode VARCHAR(6);
-
-        SET @NextID = 1;
-        WHILE EXISTS (SELECT 1 FROM tblHoadonbanhang WHERE ID_HoaDonBan = 'HDB' + RIGHT('000' + CAST(@NextID AS VARCHAR(3)), 3))
-        BEGIN
-            SET @NextID = @NextID + 1;
-        END;
-        SET @NewCode = 'HDB' + RIGHT('000' + CAST(@NextID AS VARCHAR(3)), 3);
-
-        INSERT INTO tblHoadonbanhang (ID_HoaDonBan, ID_NhanVien, ID_KhachHang, NgayBan, TongTien, DaThuTien)
-        VALUES (@NewCode, @ID_NhanVien, @ID_KhachHang, @NgayBan, @TongTien, @DaThuTien);
-
-        SELECT @NewCode AS ID_HoaDonBan;
-    END
-
-    -- SELECT: Lấy dữ liệu hóa đơn bán và chi tiết
-    ELSE IF @Action = 'SELECT'
-    BEGIN
-        IF @ID_HoaDonBan IS NULL
-            SELECT h.ID_HoaDonBan, h.ID_NhanVien, h.ID_KhachHang, h.NgayBan, h.TongTien, h.DaThuTien,
-                   c.ID_HangHoa, c.SoLuong, c.QuiCach, c.GiaBan, c.BaoHanh
-            FROM tblHoadonbanhang h
-            LEFT JOIN tblHangban c ON h.ID_HoaDonBan = c.ID_HoaDonBan;
-        ELSE
-            SELECT h.ID_HoaDonBan, h.ID_NhanVien, h.ID_KhachHang, h.NgayBan, h.TongTien, h.DaThuTien,
-                   c.ID_HangHoa, c.SoLuong, c.QuiCach, c.GiaBan, c.BaoHanh
-            FROM tblHoadonbanhang h
-            LEFT JOIN tblHangban c ON h.ID_HoaDonBan = c.ID_HoaDonBan
-            WHERE h.ID_HoaDonBan = @ID_HoaDonBan;
-    END
-
-    -- UPDATE: Cập nhật hóa đơn bán hàng
-    ELSE IF @Action = 'UPDATE'
-    BEGIN
-        UPDATE tblHoadonbanhang
-        SET ID_NhanVien = @ID_NhanVien,
-            ID_KhachHang = @ID_KhachHang,
-            NgayBan = @NgayBan,
-            TongTien = @TongTien,
-            DaThuTien = @DaThuTien
-        WHERE ID_HoaDonBan = @ID_HoaDonBan;
-
-        SELECT @@ROWCOUNT AS RowsAffected;
-    END
-
-    -- DELETE: Xóa hóa đơn bán hàng (xóa cả chi tiết)
-    ELSE IF @Action = 'DELETE'
-    BEGIN
-        BEGIN TRANSACTION;
-        DELETE FROM tblHangban WHERE ID_HoaDonBan = @ID_HoaDonBan;
-        DELETE FROM tblHoadonbanhang WHERE ID_HoaDonBan = @ID_HoaDonBan;
-        COMMIT TRANSACTION;
-
-        SELECT @@ROWCOUNT AS RowsAffected;
-    END
-
-    -- INSERT_DETAIL: Thêm chi tiết hàng bán và cập nhật tblHanghoa
-    ELSE IF @Action = 'INSERT_DETAIL'
-    BEGIN
-        INSERT INTO tblHangban (ID_HoaDonBan, ID_HangHoa, SoLuong, QuiCach, GiaBan, BaoHanh)
-        VALUES (@ID_HoaDonBan, @ID_HangHoa, @SoLuong, @QuiCach, @GiaBan, @BaoHanh);
-
-        UPDATE tblHanghoa
-        SET SoLuong = SoLuong - @SoLuong
-        WHERE ID_HangHoa = @ID_HangHoa;
-
-        UPDATE tblHoadonbanhang
-        SET TongTien = (SELECT SUM(SoLuong * GiaBan) FROM tblHangban WHERE ID_HoaDonBan = @ID_HoaDonBan)
-        WHERE ID_HoaDonBan = @ID_HoaDonBan;
-
-        SELECT @@ROWCOUNT AS RowsAffected;
-    END
-
-    -- UPDATE_DETAIL: Cập nhật chi tiết hàng bán và tblHanghoa
-    ELSE IF @Action = 'UPDATE_DETAIL'
-    BEGIN
-        DECLARE @OldSoLuong INT;
-
-        SELECT @OldSoLuong = SoLuong
-        FROM tblHangban
-        WHERE ID_HoaDonBan = @ID_HoaDonBan AND ID_HangHoa = @ID_HangHoa;
-
-        UPDATE tblHangban
-        SET SoLuong = @SoLuong,
-            QuiCach = @QuiCach,
-            GiaBan = @GiaBan,
-            BaoHanh = @BaoHanh
-        WHERE ID_HoaDonBan = @ID_HoaDonBan AND ID_HangHoa = @ID_HangHoa;
-
-        UPDATE tblHanghoa
-        SET SoLuong = SoLuong + @OldSoLuong - @SoLuong
-        WHERE ID_HangHoa = @ID_HangHoa;
-
-        UPDATE tblHoadonbanhang
-        SET TongTien = (SELECT SUM(SoLuong * GiaBan) FROM tblHangban WHERE ID_HoaDonBan = @ID_HoaDonBan)
-        WHERE ID_HoaDonBan = @ID_HoaDonBan;
-
-        SELECT @@ROWCOUNT AS RowsAffected;
-    END
-
-    -- DELETE_DETAIL: Xóa chi tiết hàng bán và cập nhật tblHanghoa
-    ELSE IF @Action = 'DELETE_DETAIL'
-    BEGIN
-        DECLARE @DeletedSoLuong INT;
-
-        SELECT @DeletedSoLuong = SoLuong
-        FROM tblHangban
-        WHERE ID_HoaDonBan = @ID_HoaDonBan AND ID_HangHoa = @ID_HangHoa;
-
-        DELETE FROM tblHangban
-        WHERE ID_HoaDonBan = @ID_HoaDonBan AND ID_HangHoa = @ID_HangHoa;
-
-        UPDATE tblHanghoa
-        SET SoLuong = SoLuong + @DeletedSoLuong
-        WHERE ID_HangHoa = @ID_HangHoa;
-
-        UPDATE tblHoadonbanhang
-        SET TongTien = ISNULL((SELECT SUM(SoLuong * GiaBan) FROM tblHangban WHERE ID_HoaDonBan = @ID_HoaDonBan), 0)
-        WHERE ID_HoaDonBan = @ID_HoaDonBan;
-
-        SELECT @@ROWCOUNT AS RowsAffected;
-    END
-    ELSE
-    BEGIN
-        RAISERROR ('Invalid Action. Use INSERT, SELECT, UPDATE, DELETE, INSERT_DETAIL, UPDATE_DETAIL, or DELETE_DETAIL.', 16, 1);
-    END
 END;
 GO
 
@@ -1173,7 +1069,7 @@ EXEC sp_NhomHang_CRUD 'SELECT', 'NMH001', NULL;       -- Xem MH001
 EXEC sp_HangHoa_CRUD 'INSERT', NULL, N'Mặt hàng 1', N'NMH001', N'Đỏ', 'L', N'Chất liệu cotton', N'Cái', 100, 2000000, NULL; -- Tạo HH001
 EXEC sp_HangHoa_CRUD 'INSERT', NULL, N'Mặt hàng 2', N'NMH002', N'Xanh', 'M', N'Chống nước', N'Hộp', 50, 1500000, NULL; -- Tạo HH002
 EXEC sp_HangHoa_CRUD 'INSERT', NULL, N'Mặt hàng 3', N'NMH001', N'Đỏ', 'L', N'Chất liệu cotton', N'Cái', Null, Null, NULL; -- Tạo HH003
-EXEC sp_HangHoa_CRUD 'INSERT', NULL, N'Mặt hàng 3', N'NMH003', N'Đỏ', 'L', N'Chất liệu cotton', N'Cái', Null, Null, NULL; -- Tạo HH003
+EXEC sp_HangHoa_CRUD 'INSERT', NULL, N'Mặt hàng 4', N'NMH003', N'Đỏ', 'L', N'Chất liệu cotton', N'Cái', Null, Null, NULL; -- Tạo HH004
 EXEC sp_HangHoa_CRUD 'SELECT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL; -- Xem tất cả
 EXEC sp_HangHoa_CRUD 'DELETE', 'HH003', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL; -- Xóa HH002
 EXEC sp_HangHoa_CRUD 'INSERT', NULL, N'Mặt hàng mới', 'NMH001', N'Trắng', 'S', N'Nhẹ', N'Chiếc', 200, 3000000, NULL; -- Tái sử dụng HH002
@@ -1242,11 +1138,13 @@ EXEC sp_NhaCungCap_CRUD 'DELETE', 'NCC001';
 EXEC sp_HoaDonNhap_CRUD 'INSERT', NULL, '2023-10-15', 0, N'Ghi chú', 'NV003', 'NCC001';
 -- EXEC sp_HoaDonNhap_CRUD 'INSERT_DETAIL', 'HDN001', NULL, NULL, NULL, NULL, 'HH003', 20, 50000;
 EXEC sp_HoaDonNhap_CRUD 'SELECT';
+EXEC sp_HoaDonNhap_CRUD @Action = 'SELECT_DETAIL', 
+                        @ID_HoaDonNhap = 'HDN001';
 
 EXEC sp_HoaDonNhap_CRUD @Action = 'INSERT_DETAIL', 
                         @ID_HoaDonNhap = 'HDN001', 
-                        @ID_HangHoa = 'HH005', 
-                        @SoLuong = 50, 
+                        @ID_HangHoa = 'HH003', 
+                        @SoLuong = 10, 
                         @DonGia = 50000;
 
 EXEC sp_HoaDonNhap_CRUD @Action = 'UPDATE_DETAIL', 

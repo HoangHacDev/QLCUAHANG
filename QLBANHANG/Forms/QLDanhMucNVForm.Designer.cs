@@ -31,15 +31,13 @@
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.BtnThemNV = new System.Windows.Forms.Button();
             this.TxtEmailNV = new System.Windows.Forms.TextBox();
             this.TxtSDTNV = new System.Windows.Forms.TextBox();
             this.TxtDiaChiNV = new System.Windows.Forms.TextBox();
-            this.TxtNgaySinhNV = new System.Windows.Forms.TextBox();
             this.TxtTenNV = new System.Windows.Forms.TextBox();
             this.TxtMaNV = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -54,9 +52,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.DgvNhanVien = new System.Windows.Forms.DataGridView();
             this.button3 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.BtnThoatFormNV = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.TxtGioiTinhNV = new System.Windows.Forms.TextBox();
+            this.DTPNgaySinh = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNhanVien)).BeginInit();
@@ -84,15 +84,15 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.DTPNgaySinh);
+            this.groupBox1.Controls.Add(this.TxtGioiTinhNV);
             this.groupBox1.Controls.Add(this.button7);
             this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.BtnThemNV);
             this.groupBox1.Controls.Add(this.TxtEmailNV);
             this.groupBox1.Controls.Add(this.TxtSDTNV);
             this.groupBox1.Controls.Add(this.TxtDiaChiNV);
-            this.groupBox1.Controls.Add(this.TxtNgaySinhNV);
             this.groupBox1.Controls.Add(this.TxtTenNV);
             this.groupBox1.Controls.Add(this.TxtMaNV);
             this.groupBox1.Controls.Add(this.label8);
@@ -111,14 +111,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin nhân viên";
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(569, 40);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(189, 24);
-            this.comboBox1.TabIndex = 17;
-            // 
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(569, 196);
@@ -128,6 +120,7 @@
             this.button7.TabIndex = 16;
             this.button7.Text = "Huỷ";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.BtnHuyDuLieu_Click);
             // 
             // button6
             // 
@@ -138,6 +131,7 @@
             this.button6.TabIndex = 15;
             this.button6.Text = "Sửa";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.BtnSuaNV_Click);
             // 
             // button5
             // 
@@ -148,16 +142,18 @@
             this.button5.TabIndex = 14;
             this.button5.Text = "Xoá";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.BtnXoaNV_Click);
             // 
-            // button4
+            // BtnThemNV
             // 
-            this.button4.Location = new System.Drawing.Point(451, 160);
-            this.button4.Margin = new System.Windows.Forms.Padding(4);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(100, 28);
-            this.button4.TabIndex = 8;
-            this.button4.Text = "Thêm";
-            this.button4.UseVisualStyleBackColor = true;
+            this.BtnThemNV.Location = new System.Drawing.Point(451, 160);
+            this.BtnThemNV.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnThemNV.Name = "BtnThemNV";
+            this.BtnThemNV.Size = new System.Drawing.Size(100, 28);
+            this.BtnThemNV.TabIndex = 8;
+            this.BtnThemNV.Text = "Thêm";
+            this.BtnThemNV.UseVisualStyleBackColor = true;
+            this.BtnThemNV.Click += new System.EventHandler(this.BtnThemNV_Click);
             // 
             // TxtEmailNV
             // 
@@ -182,14 +178,6 @@
             this.TxtDiaChiNV.Name = "TxtDiaChiNV";
             this.TxtDiaChiNV.Size = new System.Drawing.Size(297, 22);
             this.TxtDiaChiNV.TabIndex = 11;
-            // 
-            // TxtNgaySinhNV
-            // 
-            this.TxtNgaySinhNV.Location = new System.Drawing.Point(124, 126);
-            this.TxtNgaySinhNV.Margin = new System.Windows.Forms.Padding(4);
-            this.TxtNgaySinhNV.Name = "TxtNgaySinhNV";
-            this.TxtNgaySinhNV.Size = new System.Drawing.Size(297, 22);
-            this.TxtNgaySinhNV.TabIndex = 10;
             // 
             // TxtTenNV
             // 
@@ -315,6 +303,7 @@
             this.DgvNhanVien.RowHeadersWidth = 51;
             this.DgvNhanVien.Size = new System.Drawing.Size(989, 303);
             this.DgvNhanVien.TabIndex = 6;
+            this.DgvNhanVien.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvNhanVien_CellClick);
             // 
             // button3
             // 
@@ -326,15 +315,16 @@
             this.button3.Text = "Bỏ chọn";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button8
+            // BtnThoatFormNV
             // 
-            this.button8.Location = new System.Drawing.Point(919, 340);
-            this.button8.Margin = new System.Windows.Forms.Padding(4);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(100, 28);
-            this.button8.TabIndex = 8;
-            this.button8.Text = "Thoát";
-            this.button8.UseVisualStyleBackColor = true;
+            this.BtnThoatFormNV.Location = new System.Drawing.Point(919, 340);
+            this.BtnThoatFormNV.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnThoatFormNV.Name = "BtnThoatFormNV";
+            this.BtnThoatFormNV.Size = new System.Drawing.Size(100, 28);
+            this.BtnThoatFormNV.TabIndex = 8;
+            this.BtnThoatFormNV.Text = "Thoát";
+            this.BtnThoatFormNV.UseVisualStyleBackColor = true;
+            this.BtnThoatFormNV.Click += new System.EventHandler(this.BtnThoatFormNV_Click);
             // 
             // button9
             // 
@@ -345,6 +335,7 @@
             this.button9.TabIndex = 9;
             this.button9.Text = "Nạp lại";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.BtnLoadDSNV_Click);
             // 
             // groupBox2
             // 
@@ -356,6 +347,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Hình";
             // 
+            // TxtGioiTinhNV
+            // 
+            this.TxtGioiTinhNV.Location = new System.Drawing.Point(569, 37);
+            this.TxtGioiTinhNV.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtGioiTinhNV.Name = "TxtGioiTinhNV";
+            this.TxtGioiTinhNV.Size = new System.Drawing.Size(189, 22);
+            this.TxtGioiTinhNV.TabIndex = 17;
+            // 
+            // DTPNgaySinh
+            // 
+            this.DTPNgaySinh.Location = new System.Drawing.Point(124, 126);
+            this.DTPNgaySinh.Name = "DTPNgaySinh";
+            this.DTPNgaySinh.Size = new System.Drawing.Size(297, 22);
+            this.DTPNgaySinh.TabIndex = 18;
+            // 
             // QLDanhMucNVForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -363,7 +369,7 @@
             this.ClientSize = new System.Drawing.Size(1067, 700);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.button9);
-            this.Controls.Add(this.button8);
+            this.Controls.Add(this.BtnThoatFormNV);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.DgvNhanVien);
             this.Controls.Add(this.button2);
@@ -374,6 +380,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "QLDanhMucNVForm";
             this.Text = "NhanVienForm";
+            this.Load += new System.EventHandler(this.QLDanhMucNVForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -402,18 +409,18 @@
         private System.Windows.Forms.TextBox TxtEmailNV;
         private System.Windows.Forms.TextBox TxtSDTNV;
         private System.Windows.Forms.TextBox TxtDiaChiNV;
-        private System.Windows.Forms.TextBox TxtNgaySinhNV;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridView DgvNhanVien;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button BtnThemNV;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button BtnThoatFormNV;
         private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox TxtGioiTinhNV;
+        private System.Windows.Forms.DateTimePicker DTPNgaySinh;
     }
 }

@@ -46,5 +46,17 @@ namespace QLBANHANG
             QLDanhMucKHForm qLDanhMucKHForm = new QLDanhMucKHForm();
             qLDanhMucKHForm.Show();
         }
+
+        private void hàngHóaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            QLDanhMucNCCForm danhMucNCCForm = new QLDanhMucNCCForm();
+            danhMucNCCForm.Show();
+        }
+
+        private void hoáĐơnNhậpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //QLDanhMucNCCForm danhMucNCCForm = new QLDanhMucNCCForm();
+            //danhMucNCCForm.Show();
+        }
     }
 }
