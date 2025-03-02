@@ -112,6 +112,46 @@ namespace QLBANHANG.Services
             return result;
         }
 
+        public List<HangHoaModel> GetSoLuong(string idHangHoa = null)
+        {
+            List<HangHoaModel> result = new List<HangHoaModel>();
+            using (SqlConnection conn = _connectionString.KetNoiSQLServer())
+            {
+                if (conn == null) return result;
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_HangHoa_CRUD", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Action", "SELECT_ONE");
+                        cmd.Parameters.AddWithValue("@ID_HangHoa", (object)idHangHoa ?? DBNull.Value);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                result.Add(new HangHoaModel
+                                {
+                                    ID_HangHoa = reader["ID_HangHoa"].ToString(),
+                                    SoLuong = reader["SoLuong"] != DBNull.Value ? (int?)reader["SoLuong"] : null,
+                                });
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi lấy dữ liệu hàng hóa: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return result;
+        }
+
         public bool UpdateHangHoa(string idHangHoa, string tenHangHoa, string idNhomHang, string mauSac, string kichThuoc,
                               string dacTinhKyThuat, string donViTinh, int? soLuong, int? giaBan, byte[] anh)
         {

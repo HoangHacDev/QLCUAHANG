@@ -53,6 +53,7 @@ namespace QLBANHANG.Services
                 }
             }
         }
+
         // Lấy danh sách
         public List<HoaDonNhapModel> GetHoaDon(string idHoaDonNhap = null)
         {
@@ -124,6 +125,7 @@ namespace QLBANHANG.Services
                                     TenHanghoa = reader["TenHanghoa"].ToString(),
                                     SoLuong = (int)(reader["SoLuong"] != DBNull.Value ? (int?)reader["SoLuong"] : null),
                                     DonGia = (int)(reader["DonGia"] != DBNull.Value ? (int?)reader["DonGia"] : null),
+                                    ThanhTien = (int)(reader["ThanhTien"] != DBNull.Value ? (int?)reader["ThanhTien"] : null),
                                 });
                             }
                         }
@@ -139,6 +141,139 @@ namespace QLBANHANG.Services
                 }
             }
             return result;
+        }
+        public bool UpdateHoaDonNhap(string idHoaDonNhap, DateTime ngayBan, int tongTien, string ghiChu, string idNhanVien, string idNhaCC)
+        {
+            using (SqlConnection conn = _connectionString.KetNoiSQLServer())
+            {
+                if (conn == null) return false;
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_HoaDonNhap_CRUD", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Action", "UPDATE");
+                        cmd.Parameters.AddWithValue("@ID_HoaDonNhap", idHoaDonNhap);
+                        cmd.Parameters.AddWithValue("@NgayNhap", ngayBan);
+                        cmd.Parameters.AddWithValue("@TongTien", tongTien);
+                        cmd.Parameters.AddWithValue("@GhiChu", ghiChu);
+                        cmd.Parameters.AddWithValue("@ID_NhanVien", idNhanVien);
+                        cmd.Parameters.AddWithValue("@ID_NhaCungCap", idNhaCC);
+
+
+                        int rowsAffected = (int)cmd.ExecuteScalar();
+                        return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi cập nhật hoá đơn " + ex.Message);
+                    return false;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public bool DeleteHoaDonNhap(string idHoaDonNhap)
+        {
+            using (SqlConnection conn = _connectionString.KetNoiSQLServer())
+            {
+                if (conn == null) return false;
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_HoaDonNhap_CRUD", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Action", "DELETE");
+                        cmd.Parameters.AddWithValue("@ID_HoaDonNhap", idHoaDonNhap);
+
+                        int rowsAffected = (int)cmd.ExecuteScalar();
+                        return rowsAffected > 0; // Trả về true nếu xóa thành công
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xóa hoá đơn nhập: " + ex.Message);
+                    return false;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public string InsertCTHoaDonNhap(string idHoaDonNhap, string idHangHoa, int soLuong, int donGia)
+        {
+            using (SqlConnection conn = _connectionString.KetNoiSQLServer())
+            {
+                if (conn == null) return null;
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_HoaDonNhap_CRUD", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Action", "INSERT_DETAIL");
+                        cmd.Parameters.AddWithValue("@ID_HoaDonNhap", idHoaDonNhap);
+                        cmd.Parameters.AddWithValue("@ID_HangHoa", idHangHoa);
+                        cmd.Parameters.AddWithValue("@SoLuong", soLuong);
+                        cmd.Parameters.AddWithValue("@DonGia", donGia);
+
+                        // Lấy mã vừa tạo. convert to string
+                        string newId = cmd.ExecuteScalar()?.ToString();
+                        return newId;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi thêm Hàng hoá cho hoá đơn nhập: " + ex.Message);
+                    return null;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public bool UpdateCTHoaDonNhap(string idHoaDonNhap, string idHanghoa, int soLuong, int donGia)
+        {
+            using (SqlConnection conn = _connectionString.KetNoiSQLServer())
+            {
+                if (conn == null) return false;
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_HoaDonNhap_CRUD", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Action", "UPDATE_DETAIL");
+                        cmd.Parameters.AddWithValue("@ID_HoaDonNhap", idHoaDonNhap);
+                        cmd.Parameters.AddWithValue("@ID_HangHoa", idHanghoa);
+                        cmd.Parameters.AddWithValue("@SoLuong", soLuong);
+                        cmd.Parameters.AddWithValue("@DonGia", donGia);
+
+
+                        int rowsAffected = (int)cmd.ExecuteScalar();
+                        return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi cập nhật Hàng hoá cho hoá đơn nhập" + ex.Message);
+                    return false;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
     }
 }

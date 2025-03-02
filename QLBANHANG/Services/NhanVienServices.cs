@@ -79,7 +79,7 @@ namespace QLBANHANG.Services
                                 result.Add(new NhanVienModel
                                 {
                                     ID_NhanVien = reader["ID_NhanVien"].ToString(),
-                                    Hoten = reader["Hoten"].ToString(),
+                                    TenNhanVien = reader["Hoten"].ToString(),
                                     NgaySinh = (DateTime)reader["NgaySinh"],
                                     GioiTinh = reader["GioiTinh"].ToString(),
                                     DiaChi = reader["DiaChi"].ToString(),

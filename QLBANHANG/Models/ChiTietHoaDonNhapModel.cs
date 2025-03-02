@@ -13,5 +13,6 @@ namespace QLBANHANG.Models
         public string TenHanghoa { get; set; }
         public int SoLuong { get; set; }
         public int DonGia { get; set; }
+        public int ThanhTien { get; set; }
     }
 }

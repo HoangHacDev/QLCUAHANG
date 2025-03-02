@@ -245,6 +245,27 @@ BEGIN
         WHERE @ID_HangHoa IS NULL OR hh.ID_HangHoa = @ID_HangHoa;
     END
 
+		  ELSE IF @Action = 'SELECT_ONE'
+	BEGIN
+		IF @ID_HangHoa IS NOT NULL
+		BEGIN
+			SELECT 
+				hh.ID_HangHoa, 
+				hh.SoLuong
+			FROM tblHangHoa hh
+			LEFT JOIN tblNhomHang nh ON hh.ID_NhomHang = nh.ID_NhomHang
+			WHERE hh.ID_HangHoa = @ID_HangHoa;
+		END
+		ELSE
+		BEGIN
+			SELECT 
+				hh.ID_HangHoa, 
+				hh.SoLuong
+			FROM tblHangHoa hh
+			LEFT JOIN tblNhomHang nh ON hh.ID_NhomHang = nh.ID_NhomHang;
+		END
+	END
+
     ELSE IF @Action = 'UPDATE'
     BEGIN
         UPDATE tblHangHoa
@@ -905,20 +926,75 @@ BEGIN
     END
 
     -- SELECT: Lấy dữ liệu hóa đơn bán và chi tiết
-    ELSE IF @Action = 'SELECT'
-    BEGIN
-        IF @ID_HoaDonBan IS NULL
-            SELECT h.ID_HoaDonBan, h.ID_NhanVien, h.ID_KhachHang, h.NgayBan, h.TongTien, h.DaThuTien,
-                   c.ID_HangHoa, c.SoLuong, c.QuiCach, c.GiaBan, c.BaoHanh
-            FROM tblHoadonbanhang h
-            LEFT JOIN tblHangban c ON h.ID_HoaDonBan = c.ID_HoaDonBan;
-        ELSE
-            SELECT h.ID_HoaDonBan, h.ID_NhanVien, h.ID_KhachHang, h.NgayBan, h.TongTien, h.DaThuTien,
-                   c.ID_HangHoa, c.SoLuong, c.QuiCach, c.GiaBan, c.BaoHanh
-            FROM tblHoadonbanhang h
-            LEFT JOIN tblHangban c ON h.ID_HoaDonBan = c.ID_HoaDonBan
-            WHERE h.ID_HoaDonBan = @ID_HoaDonBan;
-    END
+		ELSE IF @Action = 'SELECT'
+	BEGIN
+		IF @ID_HoaDonBan IS NULL
+			SELECT 
+				h.ID_HoaDonBan,
+				h.ID_NhanVien,
+				nv.HoTen, -- Thêm tên nhân viên
+				h.ID_KhachHang,
+				kh.TenKhachHang, -- Thêm tên khách hàng
+				h.NgayBan,
+				h.TongTien,
+				h.DaThuTien,
+				c.ID_HangHoa,
+				hh.TenHangHoa, -- Thêm tên hàng hóa
+				c.SoLuong,
+				c.QuiCach,
+				c.GiaBan,
+				c.BaoHanh
+			FROM tblHoadonbanhang h
+			LEFT JOIN tblHangban c ON h.ID_HoaDonBan = c.ID_HoaDonBan
+			LEFT JOIN tblNhanVien nv ON h.ID_NhanVien = nv.ID_NhanVien
+			LEFT JOIN tblKhachHang kh ON h.ID_KhachHang = kh.ID_KhachHang
+			LEFT JOIN tblHangHoa hh ON c.ID_HangHoa = hh.ID_HangHoa;
+		ELSE
+			SELECT 
+				h.ID_HoaDonBan,
+				h.ID_NhanVien,
+				nv.HoTen, -- Thêm tên nhân viên
+				h.ID_KhachHang,
+				kh.TenKhachHang, -- Thêm tên khách hàng
+				h.NgayBan,
+				h.TongTien,
+				h.DaThuTien,
+				c.ID_HangHoa,
+				hh.TenHangHoa, -- Thêm tên hàng hóa
+				c.SoLuong,
+				c.QuiCach,
+				c.GiaBan,
+				c.BaoHanh
+			FROM tblHoadonbanhang h
+			LEFT JOIN tblHangban c ON h.ID_HoaDonBan = c.ID_HoaDonBan
+			LEFT JOIN tblNhanVien nv ON h.ID_NhanVien = nv.ID_NhanVien
+			LEFT JOIN tblKhachHang kh ON h.ID_KhachHang = kh.ID_KhachHang
+			LEFT JOIN tblHangHoa hh ON c.ID_HangHoa = hh.ID_HangHoa
+			WHERE h.ID_HoaDonBan = @ID_HoaDonBan;
+	END
+
+		ELSE IF @Action = 'SELECT_HOADON_ONLY'
+	BEGIN
+		IF @ID_HoaDonBan IS NULL
+			SELECT 
+				ID_HoaDonBan,
+				ID_NhanVien,
+				ID_KhachHang,
+				NgayBan,
+				TongTien,
+				DaThuTien
+			FROM tblHoadonbanhang;
+		ELSE
+			SELECT 
+				ID_HoaDonBan,
+				ID_NhanVien,
+				ID_KhachHang,
+				NgayBan,
+				TongTien,
+				DaThuTien
+			FROM tblHoadonbanhang
+			WHERE ID_HoaDonBan = @ID_HoaDonBan;
+	END
 
     -- UPDATE: Cập nhật hóa đơn bán hàng (giữ giá trị cũ nếu không cung cấp)
     ELSE IF @Action = 'UPDATE'
@@ -1076,6 +1152,8 @@ EXEC sp_HangHoa_CRUD 'INSERT', NULL, N'Mặt hàng mới', 'NMH001', N'Trắng',
 EXEC sp_HangHoa_CRUD 'UPDATE', 'HH001', N'Mặt hàng 1 mới', 'NMH002', N'Vàng', 'XL', N'Chống cháy', N'Bộ', 150, 2500000, NULL;
 EXEC sp_HangHoa_CRUD 'UPDATE', 'HH005', N'Mặt hàng 1 mới', 'NMH002', N'Vàng', 'XL', N'Chống cháy', N'Bộ', 0, 50000, NULL;
 EXEC sp_HangHoa_CRUD 'SELECT', 'HH001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL; -- Xem HH001
+EXEC sp_HangHoa_CRUD @Action = 'SELECT_ONE',
+					 @ID_Hanghoa = 'HH001';
 
 EXEC sp_NhanVien_CRUD 'INSERT', NULL, N'Nguyễn Văn A', '1990-01-01', N'Nam', N'Hà Nội', N'0901234567', N'ava@example.com';
 EXEC sp_NhanVien_CRUD 'INSERT', NULL, N'Nguyễn Văn B', '1990-01-01', N'Nữ', N'Hà Nội', N'0901234567', N'bva@example.com';
@@ -1135,22 +1213,25 @@ EXEC sp_NhaCungCap_CRUD 'INSERT', NULL, N'Công ty ABC', N'Hà Nội', N'0901234
 EXEC sp_NhaCungCap_CRUD 'SELECT';
 EXEC sp_NhaCungCap_CRUD 'DELETE', 'NCC001';
 
-EXEC sp_HoaDonNhap_CRUD 'INSERT', NULL, '2023-10-15', 0, N'Ghi chú', 'NV003', 'NCC001';
+EXEC sp_HoaDonNhap_CRUD 'INSERT', NULL, '2023-10-15', 0, N'Ghi chú', 'NV002', 'NCC001';
 -- EXEC sp_HoaDonNhap_CRUD 'INSERT_DETAIL', 'HDN001', NULL, NULL, NULL, NULL, 'HH003', 20, 50000;
 EXEC sp_HoaDonNhap_CRUD 'SELECT';
 EXEC sp_HoaDonNhap_CRUD @Action = 'SELECT_DETAIL', 
                         @ID_HoaDonNhap = 'HDN001';
 
+EXEC sp_HoaDonNhap_CRUD @Action = 'DELETE', 
+                        @ID_HoaDonNhap = 'HDN004';
+
 EXEC sp_HoaDonNhap_CRUD @Action = 'INSERT_DETAIL', 
-                        @ID_HoaDonNhap = 'HDN001', 
-                        @ID_HangHoa = 'HH003', 
+                        @ID_HoaDonNhap = 'HDN002', 
+                        @ID_HangHoa = 'HH004', 
                         @SoLuong = 10, 
-                        @DonGia = 50000;
+                        @DonGia = 500000;
 
 EXEC sp_HoaDonNhap_CRUD @Action = 'UPDATE_DETAIL', 
                         @ID_HoaDonNhap = 'HDN001', 
-                        @ID_HangHoa = 'HH005', 
-                        @SoLuong = 60, 
+                        @ID_HangHoa = 'HH001', 
+                        @SoLuong = 5, 
                         @DonGia = 50000;
 
 EXEC sp_HoaDonNhap_CRUD @Action = 'DELETE_DETAIL', 
@@ -1170,8 +1251,8 @@ EXEC sp_HoaDon_CRUD @Action = 'INSERT',
                     @DaThuTien = 0;
 
 EXEC sp_HoaDon_CRUD @Action = 'INSERT_DETAIL', 
-                    @ID_HoaDonBan = 'HDB003', 
-                    @ID_HangHoa = 'HH001', 
+                    @ID_HoaDonBan = 'HDB001', 
+                    @ID_HangHoa = 'HH002', 
                     @SoLuong = 10, 
                     @QuiCach = N'Hộp', 
                     @GiaBan = 50000, 
@@ -1186,11 +1267,11 @@ EXEC sp_HoaDon_CRUD @Action = 'UPDATE_DETAIL',
                     @BaoHanh = N'24 tháng';
 
 EXEC sp_HoaDon_CRUD @Action = 'UPDATE', 
-                    @ID_HoaDonBan = 'HDB003', 
+                    @ID_HoaDonBan = 'HDB001', 
                     @DaThuTien = 1;
 
 EXEC sp_HoaDon_CRUD @Action = 'UPDATE', 
-                    @ID_HoaDonBan = 'HDB003', 
+                    @ID_HoaDonBan = 'HDB001', 
                     @DaThuTien = 0;
 
 EXEC sp_HoaDon_CRUD @Action = 'DELETE_DETAIL', 
@@ -1202,10 +1283,11 @@ EXEC sp_HoaDon_CRUD @Action = 'DELETE_DETAIL',
                     @ID_HangHoa = 'HH001';
 
 EXEC sp_HoaDon_CRUD @Action = 'DELETE', 
-                    @ID_HoaDonBan = 'HDB003'
+                    @ID_HoaDonBan = 'HDB001'
 
 					
 EXEC sp_HangHoa_CRUD 'SELECT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL; -- Xem tất cả
 EXEC sp_HoaDon_CRUD 'SELECT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL; -- Xem tất cả
+EXEC sp_HoaDon_CRUD 'SELECT_HOADON_ONLY'; -- Xem tất cả
 
 SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tblHangban'

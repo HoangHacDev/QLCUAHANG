@@ -21,7 +21,7 @@ namespace QLBANHANG
         private void PhanLoaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             QLDanhMucMHForm hangHoaForm = new QLDanhMucMHForm();
-            hangHoaForm.Show();
+            hangHoaForm.ShowDialog();
         }
 
         private void thốngKêToolStripMenuItem_Click(object sender, EventArgs e)
@@ -32,31 +32,37 @@ namespace QLBANHANG
         private void ToolStripMenuItemDSNhanVien_Click(object sender, EventArgs e)
         {
             QLDanhMucNVForm qLDanhMucNVForm = new QLDanhMucNVForm();
-            qLDanhMucNVForm.Show();
+            qLDanhMucNVForm.ShowDialog();
         }
 
         private void ToolStripMenuItemPhanQuyen_Click(object sender, EventArgs e)
         {
             QLQuyenNVForm qLQuyenNVForm = new QLQuyenNVForm();
-            qLQuyenNVForm.Show();
+            qLQuyenNVForm.ShowDialog();
         }
 
         private void kháchHàngToolStripMenuItem_Click(object sender, EventArgs e)
         {
             QLDanhMucKHForm qLDanhMucKHForm = new QLDanhMucKHForm();
-            qLDanhMucKHForm.Show();
+            qLDanhMucKHForm.ShowDialog();
         }
 
         private void hàngHóaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             QLDanhMucNCCForm danhMucNCCForm = new QLDanhMucNCCForm();
-            danhMucNCCForm.Show();
+            danhMucNCCForm.ShowDialog();
         }
 
         private void hoáĐơnNhậpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //QLDanhMucNCCForm danhMucNCCForm = new QLDanhMucNCCForm();
-            //danhMucNCCForm.Show();
+            //danhMucNCCForm.ShowDialog();
+        }
+
+        private void HóaĐơnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            QLDanhMucHDForm qLDanhMucHDForm = new QLDanhMucHDForm();
+            qLDanhMucHDForm.ShowDialog();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace QLBANHANG.Models
     public class NhanVienModel
     {
         public string ID_NhanVien { get; set; }
-        public string Hoten { get; set; }
+        public string TenNhanVien { get; set; }
         public DateTime NgaySinh { get; set; }
         public string GioiTinh { get; set; }
         public string DiaChi { get; set; }

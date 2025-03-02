@@ -57,6 +57,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.DgvHH_HD = new System.Windows.Forms.DataGridView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.TxtMaHDN = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.TxtGhiChu_DHN = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -68,11 +70,11 @@
             this.BtnSuaHD_NCC = new System.Windows.Forms.Button();
             this.BtnXoaHD_NCC = new System.Windows.Forms.Button();
             this.BtnThemHD_NCC = new System.Windows.Forms.Button();
-            this.TxtSDTNCC_HDN = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.DTPNgayLapHD = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.TxtTongTien_HDN = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNhaCungCap)).BeginInit();
@@ -367,6 +369,7 @@
             this.DgvHoaDonNhap.Size = new System.Drawing.Size(783, 133);
             this.DgvHoaDonNhap.TabIndex = 11;
             this.DgvHoaDonNhap.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvHoaDonNhap_CellClick);
+            this.DgvHoaDonNhap.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvHoaDonNhap_CellDoubleClick);
             // 
             // groupBox3
             // 
@@ -389,9 +392,14 @@
             this.DgvHH_HD.RowHeadersWidth = 51;
             this.DgvHH_HD.Size = new System.Drawing.Size(783, 133);
             this.DgvHH_HD.TabIndex = 11;
+            this.DgvHH_HD.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvHH_HD_CellDoubleClick);
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.TxtTongTien_HDN);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.TxtMaHDN);
+            this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Controls.Add(this.TxtGhiChu_DHN);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.button1);
@@ -403,8 +411,6 @@
             this.groupBox4.Controls.Add(this.BtnSuaHD_NCC);
             this.groupBox4.Controls.Add(this.BtnXoaHD_NCC);
             this.groupBox4.Controls.Add(this.BtnThemHD_NCC);
-            this.groupBox4.Controls.Add(this.TxtSDTNCC_HDN);
-            this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.DTPNgayLapHD);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.label12);
@@ -416,6 +422,22 @@
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Thông Tin Hoá Đơn";
+            // 
+            // TxtMaHDN
+            // 
+            this.TxtMaHDN.Location = new System.Drawing.Point(540, 77);
+            this.TxtMaHDN.Name = "TxtMaHDN";
+            this.TxtMaHDN.Size = new System.Drawing.Size(228, 22);
+            this.TxtMaHDN.TabIndex = 27;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(421, 77);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(87, 16);
+            this.label10.TabIndex = 26;
+            this.label10.Text = "Mã Hoá đơn :";
             // 
             // TxtGhiChu_DHN
             // 
@@ -483,6 +505,7 @@
             this.BtnThoatFormNH.TabIndex = 19;
             this.BtnThoatFormNH.Text = "Thoát";
             this.BtnThoatFormNH.UseVisualStyleBackColor = true;
+            this.BtnThoatFormNH.Click += new System.EventHandler(this.BtnThoatFormNH_Click);
             // 
             // BtnHuyODL_HDN
             // 
@@ -493,6 +516,7 @@
             this.BtnHuyODL_HDN.TabIndex = 18;
             this.BtnHuyODL_HDN.Text = "Hủy";
             this.BtnHuyODL_HDN.UseVisualStyleBackColor = true;
+            this.BtnHuyODL_HDN.Click += new System.EventHandler(this.BtnHuyODL_HDN_Click);
             // 
             // BtnSuaHD_NCC
             // 
@@ -503,6 +527,7 @@
             this.BtnSuaHD_NCC.TabIndex = 17;
             this.BtnSuaHD_NCC.Text = "Sửa";
             this.BtnSuaHD_NCC.UseVisualStyleBackColor = true;
+            this.BtnSuaHD_NCC.Click += new System.EventHandler(this.BtnSuaHD_NCC_Click);
             // 
             // BtnXoaHD_NCC
             // 
@@ -513,6 +538,7 @@
             this.BtnXoaHD_NCC.TabIndex = 16;
             this.BtnXoaHD_NCC.Text = "Xóa";
             this.BtnXoaHD_NCC.UseVisualStyleBackColor = true;
+            this.BtnXoaHD_NCC.Click += new System.EventHandler(this.BtnXoaHD_NCC_Click);
             // 
             // BtnThemHD_NCC
             // 
@@ -524,26 +550,6 @@
             this.BtnThemHD_NCC.Text = "Thêm";
             this.BtnThemHD_NCC.UseVisualStyleBackColor = true;
             this.BtnThemHD_NCC.Click += new System.EventHandler(this.BtnThemHD_NCC_Click);
-            // 
-            // TxtSDTNCC_HDN
-            // 
-            this.TxtSDTNCC_HDN.Location = new System.Drawing.Point(539, 77);
-            this.TxtSDTNCC_HDN.Margin = new System.Windows.Forms.Padding(4);
-            this.TxtSDTNCC_HDN.Name = "TxtSDTNCC_HDN";
-            this.TxtSDTNCC_HDN.Size = new System.Drawing.Size(228, 22);
-            this.TxtSDTNCC_HDN.TabIndex = 14;
-            this.TxtSDTNCC_HDN.TextChanged += new System.EventHandler(this.TxtSDTNCC_HD_TextChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(420, 81);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(98, 16);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Số Điện Thoại :";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // DTPNgayLapHD
             // 
@@ -572,6 +578,22 @@
             this.label12.Size = new System.Drawing.Size(72, 16);
             this.label12.TabIndex = 6;
             this.label12.Text = "Ngày Lập :";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(421, 119);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 16);
+            this.label5.TabIndex = 28;
+            this.label5.Text = "Tổng tiền :";
+            // 
+            // TxtTongTien_HDN
+            // 
+            this.TxtTongTien_HDN.Location = new System.Drawing.Point(540, 116);
+            this.TxtTongTien_HDN.Name = "TxtTongTien_HDN";
+            this.TxtTongTien_HDN.Size = new System.Drawing.Size(228, 22);
+            this.TxtTongTien_HDN.TabIndex = 29;
             // 
             // QLDanhMucNCCForm
             // 
@@ -634,8 +656,6 @@
         private System.Windows.Forms.Button BtnSuaHD_NCC;
         private System.Windows.Forms.Button BtnXoaHD_NCC;
         private System.Windows.Forms.Button BtnThemHD_NCC;
-        private System.Windows.Forms.TextBox TxtSDTNCC_HDN;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DateTimePicker DTPNgayLapHD;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label12;
@@ -646,5 +666,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox TxtGhiChu_DHN;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox TxtMaHDN;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox TxtTongTien_HDN;
     }
 }

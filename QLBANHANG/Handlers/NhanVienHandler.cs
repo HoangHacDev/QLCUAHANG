@@ -68,7 +68,7 @@ namespace QLBANHANG.Handlers
 
             for (int i = 0; i < nhanViens.Count; i++)
             {
-                dt.Rows.Add(i + 1, nhanViens[i].Hoten, nhanViens[i].NgaySinh, nhanViens[i].GioiTinh, nhanViens[i].DiaChi, nhanViens[i].SoDienThoai, nhanViens[i].Email);
+                dt.Rows.Add(i + 1, nhanViens[i].TenNhanVien, nhanViens[i].NgaySinh, nhanViens[i].GioiTinh, nhanViens[i].DiaChi, nhanViens[i].SoDienThoai, nhanViens[i].Email);
             }
 
             dgvKhachHang.DataSource = dt;

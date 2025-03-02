@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace QLBANHANG.Handlers
 {
@@ -22,7 +23,7 @@ namespace QLBANHANG.Handlers
             _hoaDonNhapService = hoaDonNhapService ?? throw new ArgumentNullException(nameof(hoaDonNhapService));
         }
 
-        public void HandleInsert(DateTime ngayBan , TextBox txtghiChu, ComboBox id_Nhanvien, ComboBox id_NhaCC, Action<string> onSuccess)
+        public void HandleInsert(DateTime ngayBan, TextBox txtghiChu, ComboBox id_Nhanvien, ComboBox id_NhaCC, Action<string> onSuccess)
         {
             DateTime ngayBann = ngayBan;
             //int TongTien = int.Parse(txtongTien.Text.Trim());
@@ -89,10 +90,11 @@ namespace QLBANHANG.Handlers
             dt.Columns.Add("Tên Hàng Hoá", typeof(string));
             dt.Columns.Add("Số lượng", typeof(string));
             dt.Columns.Add("Đơn giá", typeof(string));
+            dt.Columns.Add("Thành Tiền", typeof(string));
 
             for (int i = 0; i < ChiTietHoaDonNhaps.Count; i++)
             {
-                dt.Rows.Add(i + 1, ChiTietHoaDonNhaps[i].TenHanghoa, ChiTietHoaDonNhaps[i].SoLuong, ChiTietHoaDonNhaps[i].DonGia);
+                dt.Rows.Add(i + 1, ChiTietHoaDonNhaps[i].TenHanghoa, ChiTietHoaDonNhaps[i].SoLuong, ChiTietHoaDonNhaps[i].DonGia, ChiTietHoaDonNhaps[i].ThanhTien);
             }
 
             dgvHoaDonNhap.DataSource = dt;
@@ -108,7 +110,82 @@ namespace QLBANHANG.Handlers
             dgvHoaDonNhap.Columns["STT"].Width = 50;
             dgvHoaDonNhap.Columns["Tên Hàng Hoá"].Width = 150;
             dgvHoaDonNhap.Columns["Số lượng"].Width = 100;
-            dgvHoaDonNhap.Columns["Đơn giá"].Width = 200;
+            dgvHoaDonNhap.Columns["Đơn giá"].Width = 150;
+            dgvHoaDonNhap.Columns["Thành Tiền"].Width = 200;
+        }
+
+        public void HandleUpdate(string idHoaDonNhap, DateTime ngayBan, string tongtien, TextBox txtghiChu, ComboBox id_Nhanvien, ComboBox id_NhaCC, Action onSuccess)
+        {
+            DateTime ngayBann = ngayBan;
+            //int TongTien = int.Parse(txtongTien.Text.Trim());
+            string GhiChu = txtghiChu.Text.Trim();
+            string idNhaVien = id_Nhanvien.SelectedValue?.ToString();
+            string idNhacc = id_NhaCC.SelectedValue?.ToString();
+            int TongTienHD = int.Parse(tongtien);
+
+            if (ngayBann > DateTime.Now)
+            {
+                MessageBox.Show("Ngày bán không được lớn hơn ngày hiện tại!");
+                return;
+            }
+
+            bool updated = _hoaDonNhapService.UpdateHoaDonNhap(idHoaDonNhap, ngayBann, TongTienHD, GhiChu, idNhaVien, idNhacc);
+            if (updated)
+            {
+                MessageBox.Show("Đã cập nhật hoá đơn !");
+                onSuccess?.Invoke();
+            }
+        }
+
+        public void HandleDelete(string idHoaDonNhap, Action onSuccess)
+        {
+            if (string.IsNullOrEmpty(idHoaDonNhap))
+            {
+                MessageBox.Show("Vui lòng chọn hoá đơn nhập để xóa!");
+                return;
+            }
+
+            if (MessageBox.Show("Bạn có chắc muốn xóa?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                bool deleted = _hoaDonNhapService.DeleteHoaDonNhap(idHoaDonNhap);
+                if (!deleted)
+                {
+                    MessageBox.Show("Đã xóa hoá đơn !");
+                    onSuccess?.Invoke();
+                }
+            }
+        }
+
+        public void HandleInsertCTHD(TextBox idHoaDonNhap, TextBox idHangHoa, TextBox soLuong, TextBox DonGia, Action<string> onSuccess)
+        {
+            //int TongTien = int.Parse(txtongTien.Text.Trim());
+            string Idhoadonnhap = idHoaDonNhap.Text.Trim();
+            string Idhanghoa = idHangHoa.Text.Trim();
+            int SoLuong = int.Parse(soLuong.Text.Trim());
+            int donGia = int.Parse(DonGia.Text.Trim().Replace(",", "").Replace("٬", "").Replace(".", ""));
+
+            string newId = _hoaDonNhapService.InsertCTHoaDonNhap(Idhoadonnhap, Idhanghoa, SoLuong, donGia);
+            if (newId != null)
+            {
+                MessageBox.Show($"Đã thêm hoá đơn: {newId}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                idHoaDonNhap.Clear();
+                idHangHoa.Clear();
+                soLuong.Clear();
+                DonGia.Clear();
+                onSuccess?.Invoke(newId); // Gọi callback để cập nhật UI
+            }
+        }
+        public void HandleUpdateCTHD(string idHoaDonNhap, string idHangHoa, TextBox soLuong, TextBox DonGia, Action onSuccess)
+        {
+            int SoLuong = int.Parse(soLuong.Text.Trim());
+            int donGia = int.Parse(DonGia.Text.Trim());
+
+            bool updated = _hoaDonNhapService.UpdateCTHoaDonNhap(idHoaDonNhap, idHangHoa, SoLuong, donGia);
+            if (updated)
+            {
+                MessageBox.Show("Đã cập nhật hoá đơn !");
+                onSuccess?.Invoke();
+            }
         }
     }
 }
