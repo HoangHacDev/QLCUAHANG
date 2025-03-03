@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Cb_MaKH_3 = new System.Windows.Forms.ComboBox();
+            this.Cb_MaNV_3 = new System.Windows.Forms.ComboBox();
+            this.Cb_MaHD_3 = new System.Windows.Forms.ComboBox();
             this.Btn_LoadDSHD_3 = new System.Windows.Forms.Button();
             this.Btn_InHD_3 = new System.Windows.Forms.Button();
             this.Txt_SDTKH_3 = new System.Windows.Forms.TextBox();
@@ -51,6 +54,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.Cb_MaHH_3 = new System.Windows.Forms.ComboBox();
             this.Txt_Tong_3 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.Txt_Sale_3 = new System.Windows.Forms.TextBox();
@@ -65,10 +69,6 @@
             this.Dgv_HoaDon_3 = new System.Windows.Forms.DataGridView();
             this.button7 = new System.Windows.Forms.Button();
             this.textBox14 = new System.Windows.Forms.TextBox();
-            this.Cb_MaHD_3 = new System.Windows.Forms.ComboBox();
-            this.Cb_MaNV_3 = new System.Windows.Forms.ComboBox();
-            this.Cb_MaKH_3 = new System.Windows.Forms.ComboBox();
-            this.Cb_MaHH_3 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_HoaDon_3)).BeginInit();
@@ -107,6 +107,33 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông Tin Chung";
+            // 
+            // Cb_MaKH_3
+            // 
+            this.Cb_MaKH_3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Cb_MaKH_3.FormattingEnabled = true;
+            this.Cb_MaKH_3.Location = new System.Drawing.Point(543, 23);
+            this.Cb_MaKH_3.Name = "Cb_MaKH_3";
+            this.Cb_MaKH_3.Size = new System.Drawing.Size(279, 24);
+            this.Cb_MaKH_3.TabIndex = 29;
+            // 
+            // Cb_MaNV_3
+            // 
+            this.Cb_MaNV_3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Cb_MaNV_3.FormattingEnabled = true;
+            this.Cb_MaNV_3.Location = new System.Drawing.Point(124, 89);
+            this.Cb_MaNV_3.Name = "Cb_MaNV_3";
+            this.Cb_MaNV_3.Size = new System.Drawing.Size(263, 24);
+            this.Cb_MaNV_3.TabIndex = 28;
+            // 
+            // Cb_MaHD_3
+            // 
+            this.Cb_MaHD_3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Cb_MaHD_3.FormattingEnabled = true;
+            this.Cb_MaHD_3.Location = new System.Drawing.Point(124, 22);
+            this.Cb_MaHD_3.Name = "Cb_MaHD_3";
+            this.Cb_MaHD_3.Size = new System.Drawing.Size(263, 24);
+            this.Cb_MaHD_3.TabIndex = 27;
             // 
             // Btn_LoadDSHD_3
             // 
@@ -335,6 +362,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông tin đơn hàng :";
             // 
+            // Cb_MaHH_3
+            // 
+            this.Cb_MaHH_3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Cb_MaHH_3.FormattingEnabled = true;
+            this.Cb_MaHH_3.Location = new System.Drawing.Point(109, 20);
+            this.Cb_MaHH_3.Name = "Cb_MaHH_3";
+            this.Cb_MaHH_3.Size = new System.Drawing.Size(161, 24);
+            this.Cb_MaHH_3.TabIndex = 30;
+            // 
             // Txt_Tong_3
             // 
             this.Txt_Tong_3.Location = new System.Drawing.Point(663, 53);
@@ -463,38 +499,6 @@
             this.textBox14.Size = new System.Drawing.Size(722, 22);
             this.textBox14.TabIndex = 26;
             // 
-            // Cb_MaHD_3
-            // 
-            this.Cb_MaHD_3.FormattingEnabled = true;
-            this.Cb_MaHD_3.Location = new System.Drawing.Point(124, 22);
-            this.Cb_MaHD_3.Name = "Cb_MaHD_3";
-            this.Cb_MaHD_3.Size = new System.Drawing.Size(263, 24);
-            this.Cb_MaHD_3.TabIndex = 27;
-            // 
-            // Cb_MaNV_3
-            // 
-            this.Cb_MaNV_3.FormattingEnabled = true;
-            this.Cb_MaNV_3.Location = new System.Drawing.Point(124, 89);
-            this.Cb_MaNV_3.Name = "Cb_MaNV_3";
-            this.Cb_MaNV_3.Size = new System.Drawing.Size(263, 24);
-            this.Cb_MaNV_3.TabIndex = 28;
-            // 
-            // Cb_MaKH_3
-            // 
-            this.Cb_MaKH_3.FormattingEnabled = true;
-            this.Cb_MaKH_3.Location = new System.Drawing.Point(543, 23);
-            this.Cb_MaKH_3.Name = "Cb_MaKH_3";
-            this.Cb_MaKH_3.Size = new System.Drawing.Size(279, 24);
-            this.Cb_MaKH_3.TabIndex = 29;
-            // 
-            // Cb_MaHH_3
-            // 
-            this.Cb_MaHH_3.FormattingEnabled = true;
-            this.Cb_MaHH_3.Location = new System.Drawing.Point(109, 20);
-            this.Cb_MaHH_3.Name = "Cb_MaHH_3";
-            this.Cb_MaHH_3.Size = new System.Drawing.Size(161, 24);
-            this.Cb_MaHH_3.TabIndex = 30;
-            // 
             // QLDanhMucHDForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -508,6 +512,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "QLDanhMucHDForm";
             this.Text = "Hoá Đơn";
+            this.Load += new System.EventHandler(this.QLDanhMucHDForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
