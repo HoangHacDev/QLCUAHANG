@@ -141,6 +141,7 @@
     <Compile Include="Handlers\NhaCungCapHandler.cs" />
     <Compile Include="Handlers\NhanVienHandler.cs" />
     <Compile Include="Handlers\NhomHangHandler.cs" />
+    <Compile Include="Models\ChiTietHoaDonBanModel.cs" />
     <Compile Include="Models\ChiTietHoaDonNhapModel.cs" />
     <Compile Include="Models\HangHoaModel.cs" />
     <Compile Include="Models\HoaDonModel.cs" />

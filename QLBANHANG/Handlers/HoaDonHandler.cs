@@ -28,6 +28,16 @@ namespace QLBANHANG.Handlers
             DateTime ngayBann = ngayBan;
             bool daThuTien = false;
 
+            if (string.IsNullOrEmpty(id_Nhanvien.Text))
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên!");
+                return;
+            }
+            if (string.IsNullOrEmpty(id_KhachHang.Text))
+            {
+                MessageBox.Show("Vui lòng chọn khách hàng!");
+                return;
+            }
             if (ngayBann > DateTime.Now)
             {
                 MessageBox.Show("Ngày bán không được lớn hơn ngày hiện tại!");
@@ -51,13 +61,26 @@ namespace QLBANHANG.Handlers
             DataTable dt = new DataTable();
             dt.Columns.Add("STT", typeof(int));
             dt.Columns.Add("Mã hóa đơn", typeof(string));
+            dt.Columns.Add("Tên nhân viên", typeof(string));
+            dt.Columns.Add("Tên Khách hàng", typeof(string));
             dt.Columns.Add("Ngày bán", typeof(string));
             dt.Columns.Add("Tổng tiền", typeof(string));
             dt.Columns.Add("Đã thu tiền", typeof(string));
 
             for (int i = 0; i < hoaDons.Count; i++)
             {
-                dt.Rows.Add(i + 1, hoaDons[i].ID_HoaDonBan, hoaDons[i].NgayBan, hoaDons[i].TongTien, hoaDons[i].DaThuTien);
+                // Chuyển đổi giá trị boolean DaThuTien thành chuỗi "Đã thu tiền" hoặc "Chưa thu tiền"
+                string trangThaiThuTien = hoaDons[i].DaThuTien ? "Đã thu tiền" : "Chưa thu tiền";
+
+                dt.Rows.Add(
+                    i + 1,
+                    hoaDons[i].ID_HoaDonBan,
+                    hoaDons[i].TenNhanVien,
+                    hoaDons[i].TenKhachHang,
+                    hoaDons[i].NgayBan,
+                    hoaDons[i].TongTien,
+                    trangThaiThuTien
+                );
             }
 
             dgvHoaDon.DataSource = dt;
@@ -72,27 +95,37 @@ namespace QLBANHANG.Handlers
             // Tùy chỉnh giao diện cột
             dgvHoaDon.Columns["STT"].Width = 50;
             dgvHoaDon.Columns["Mã hóa đơn"].Width = 100;
+            dgvHoaDon.Columns["Tên nhân viên"].Width = 100;
+            dgvHoaDon.Columns["Tên Khách hàng"].Width = 100;
             dgvHoaDon.Columns["Ngày bán"].Width = 150;
             dgvHoaDon.Columns["Tổng tiền"].Width = 100;
             dgvHoaDon.Columns["Đã thu tiền"].Width = 150;
         }
 
-        public void HandleUpdate(string idHoaDon, ComboBox id_Nhanvien, ComboBox id_KhachHang, DateTime ngayBan, string tongTien, TextBox daThuTien, Action onSuccess)
+        public void HandleUpdate(string idHoaDon, ComboBox id_Nhanvien, ComboBox id_KhachHang, DateTime ngayBan, Action onSuccess)
         {
             string idNhaVien = id_Nhanvien.SelectedValue?.ToString();
             string idNhaKH = id_KhachHang.SelectedValue?.ToString();
             DateTime ngayBann = ngayBan;
-            int TongTienHD = int.Parse(tongTien);
-            string DaThuTien = daThuTien.Text.Trim();
 
+            if (string.IsNullOrEmpty(id_Nhanvien.Text))
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên!");
+                return;
+            }
+            if (string.IsNullOrEmpty(id_KhachHang.Text))
+            {
+                MessageBox.Show("Vui lòng chọn khách hàng!");
+                return;
+            }
             if (ngayBann > DateTime.Now)
             {
                 MessageBox.Show("Ngày bán không được lớn hơn ngày hiện tại!");
                 return;
             }
 
-            bool updated = _hoaDonServices.UpdateHoaDonBan(idHoaDon, idNhaVien, idNhaKH, ngayBann, TongTienHD, DaThuTien);
-            if (updated)
+            bool updated = _hoaDonServices.UpdateHoaDonBan(idHoaDon, idNhaVien, idNhaKH, ngayBann);
+            if (!updated)
             {
                 MessageBox.Show("Đã cập nhật hoá đơn !");
                 onSuccess?.Invoke();
@@ -118,5 +151,73 @@ namespace QLBANHANG.Handlers
             }
         }
 
+        public void HandleInsertCTHD(string idHoaDon, ComboBox idHangHoa, TextBox soLuong, TextBox DonGia, Action<string> onSuccess)
+        {
+            string IdhangHoa = idHangHoa.SelectedValue?.ToString();
+            int SoLuong = int.Parse(soLuong.Text.Trim());
+            int donGia = int.Parse(DonGia.Text.Trim());
+        
+            string newId = _hoaDonServices.InsertCTHoaDon(idHoaDon, IdhangHoa, SoLuong, donGia);
+            if (newId != null)
+            {
+                MessageBox.Show($"Đã thêm hoá đơn: {newId}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                onSuccess?.Invoke(newId); // Gọi callback để cập nhật UI
+            }
+        }
+
+        public void HandleLoadDataCTHD(DataGridView dgvHoaDon, string idHoaDonBan)
+        {
+            List<ChiTietHoaDonBanModel> hoaDons = _hoaDonServices.GetCTHoaDon(idHoaDonBan);
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add("STT", typeof(int));
+            dt.Columns.Add("Mã hóa đơn", typeof(string));
+            dt.Columns.Add("Mã hàng hoá", typeof(string));
+            dt.Columns.Add("Tên hàng hoá", typeof(string));
+            dt.Columns.Add("Số lượng", typeof(string));
+            dt.Columns.Add("Giá bán", typeof(string));
+
+            for (int i = 0; i < hoaDons.Count; i++)
+            {
+                dt.Rows.Add(
+                    i + 1,
+                    hoaDons[i].ID_HoaDonBan,
+                    hoaDons[i].ID_HangHoa,
+                    hoaDons[i].TenHangHoa,
+                    hoaDons[i].SoLuong,
+                    hoaDons[i].GiaBan
+                );
+            }
+
+            dgvHoaDon.DataSource = dt;
+            if (dgvHoaDon.Columns["QuiCach"] != null)
+            {
+                dgvHoaDon.Columns["QuiCach"].Visible = false;
+            }
+            if (dgvHoaDon.Columns["BaoHanh"] != null)
+            {
+                dgvHoaDon.Columns["BaoHanh"].Visible = false;
+            }
+            // Tùy chỉnh giao diện cột
+            dgvHoaDon.Columns["STT"].Width = 50;
+            dgvHoaDon.Columns["Mã hóa đơn"].Width = 100;
+            dgvHoaDon.Columns["Mã hàng hoá"].Width = 100;
+            dgvHoaDon.Columns["Tên hàng hoá"].Width = 150;
+            dgvHoaDon.Columns["Số lượng"].Width = 100;
+            dgvHoaDon.Columns["Giá bán"].Width = 250;
+        }
+
+        public void HandleUpdateCTHD(string idHoaDonNhap, string idHangHoa, TextBox soLuong, TextBox DonGia, Action onSuccess)
+        {
+            int SoLuong = int.Parse(soLuong.Text.Trim());
+            int donGia = int.Parse(DonGia.Text.Trim());
+
+            bool updated = _hoaDonServices.UpdateCTHoaDonBan(idHoaDonNhap, idHangHoa, SoLuong, donGia);
+            if (updated)
+            {
+                MessageBox.Show("Đã cập nhật hoá đơn !");
+                onSuccess?.Invoke();
+            }
+        }
     }
 }

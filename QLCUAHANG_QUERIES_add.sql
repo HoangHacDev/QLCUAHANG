@@ -977,24 +977,71 @@ BEGIN
 	BEGIN
 		IF @ID_HoaDonBan IS NULL
 			SELECT 
-				ID_HoaDonBan,
-				ID_NhanVien,
-				ID_KhachHang,
-				NgayBan,
-				TongTien,
-				DaThuTien
-			FROM tblHoadonbanhang;
+				h.ID_HoaDonBan,
+				h.ID_NhanVien,
+				h.ID_KhachHang,
+				nv.HoTen,
+				kh.TenKhachHang,
+				kh.DiaChi,
+				kh.SoDienThoai,
+				h.NgayBan,
+				h.TongTien,
+				h.DaThuTien
+			FROM tblHoadonbanhang h
+			LEFT JOIN tblNhanVien nv ON h.ID_NhanVien = nv.ID_NhanVien
+			LEFT JOIN tblKhachHang kh ON h.ID_KhachHang = kh.ID_KhachHang;
 		ELSE
 			SELECT 
-				ID_HoaDonBan,
-				ID_NhanVien,
-				ID_KhachHang,
-				NgayBan,
-				TongTien,
-				DaThuTien
-			FROM tblHoadonbanhang
-			WHERE ID_HoaDonBan = @ID_HoaDonBan;
+				h.ID_HoaDonBan,
+				h.ID_NhanVien,
+				h.ID_KhachHang,
+				nv.HoTen,
+				kh.TenKhachHang,
+				kh.DiaChi,
+				kh.SoDienThoai,
+				h.NgayBan,
+				h.TongTien,
+				h.DaThuTien
+			FROM tblHoadonbanhang h
+			LEFT JOIN tblNhanVien nv ON h.ID_NhanVien = nv.ID_NhanVien
+			LEFT JOIN tblKhachHang kh ON h.ID_KhachHang = kh.ID_KhachHang
+			WHERE h.ID_HoaDonBan = @ID_HoaDonBan;
 	END
+
+	-- SELECT_DETAIL: Lấy chi tiết hàng bán của một hóa đơn cụ thể
+    ELSE IF @Action = 'SELECT_DETAIL'
+    BEGIN
+        IF @ID_HoaDonBan IS NULL
+        BEGIN
+            RAISERROR ('ID_HoaDonBan is required for SELECT_DETAIL action.', 16, 1);
+            RETURN;
+        END
+
+        IF @ID_HangHoa IS NULL
+            SELECT 
+                c.ID_HoaDonBan,
+                c.ID_HangHoa,
+                hh.TenHangHoa,
+                c.SoLuong,
+                c.QuiCach,
+                c.GiaBan,
+                c.BaoHanh
+            FROM tblHangban c
+            LEFT JOIN tblHangHoa hh ON c.ID_HangHoa = hh.ID_HangHoa
+            WHERE c.ID_HoaDonBan = @ID_HoaDonBan;
+        ELSE
+            SELECT 
+                c.ID_HoaDonBan,
+                c.ID_HangHoa,
+                hh.TenHangHoa,
+                c.SoLuong,
+                c.QuiCach,
+                c.GiaBan,
+                c.BaoHanh
+            FROM tblHangban c
+            LEFT JOIN tblHangHoa hh ON c.ID_HangHoa = hh.ID_HangHoa
+            WHERE c.ID_HoaDonBan = @ID_HoaDonBan AND c.ID_HangHoa = @ID_HangHoa;
+    END
 
     -- UPDATE: Cập nhật hóa đơn bán hàng (giữ giá trị cũ nếu không cung cấp)
     ELSE IF @Action = 'UPDATE'
@@ -1289,5 +1336,7 @@ EXEC sp_HoaDon_CRUD @Action = 'DELETE',
 EXEC sp_HangHoa_CRUD 'SELECT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL; -- Xem tất cả
 EXEC sp_HoaDon_CRUD 'SELECT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL; -- Xem tất cả
 EXEC sp_HoaDon_CRUD 'SELECT_HOADON_ONLY'; -- Xem tất cả
+EXEC sp_HoaDon_CRUD @Action = 'SELECT_DETAIL', 
+                    @ID_HoaDonBan = 'HDB001';
 
 SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tblHangban'

@@ -31,7 +31,7 @@
             this.TxtTongTienHDN_1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.BtnThoatCTHDN_1 = new System.Windows.Forms.Button();
-            this.BtnThemCTHDN_1 = new System.Windows.Forms.Button();
+            this.BtnSuaCTHDN_1 = new System.Windows.Forms.Button();
             this.TxtMaHH_1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.TxtMaHDN_1 = new System.Windows.Forms.TextBox();
@@ -40,8 +40,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.DgvHoaDonNhap_1 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.DgvHoaDonNhap_1)).BeginInit();
+            this.DgvHoaDonBan_1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvHoaDonBan_1)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtTongTienHDN_1
@@ -68,15 +68,17 @@
             this.BtnThoatCTHDN_1.TabIndex = 25;
             this.BtnThoatCTHDN_1.Text = "Thoát";
             this.BtnThoatCTHDN_1.UseVisualStyleBackColor = true;
+            this.BtnThoatCTHDN_1.Click += new System.EventHandler(this.BtnThoatCTHDN_1_Click);
             // 
-            // BtnThemCTHDN_1
+            // BtnSuaCTHDN_1
             // 
-            this.BtnThemCTHDN_1.Location = new System.Drawing.Point(564, 16);
-            this.BtnThemCTHDN_1.Name = "BtnThemCTHDN_1";
-            this.BtnThemCTHDN_1.Size = new System.Drawing.Size(75, 23);
-            this.BtnThemCTHDN_1.TabIndex = 24;
-            this.BtnThemCTHDN_1.Text = "Thêm";
-            this.BtnThemCTHDN_1.UseVisualStyleBackColor = true;
+            this.BtnSuaCTHDN_1.Location = new System.Drawing.Point(564, 16);
+            this.BtnSuaCTHDN_1.Name = "BtnSuaCTHDN_1";
+            this.BtnSuaCTHDN_1.Size = new System.Drawing.Size(75, 23);
+            this.BtnSuaCTHDN_1.TabIndex = 24;
+            this.BtnSuaCTHDN_1.Text = "Lưu";
+            this.BtnSuaCTHDN_1.UseVisualStyleBackColor = true;
+            this.BtnSuaCTHDN_1.Click += new System.EventHandler(this.BtnSuaCTHDN_1_Click);
             // 
             // TxtMaHH_1
             // 
@@ -107,6 +109,8 @@
             this.TxtSoLuong_1.Name = "TxtSoLuong_1";
             this.TxtSoLuong_1.Size = new System.Drawing.Size(130, 22);
             this.TxtSoLuong_1.TabIndex = 20;
+            this.TxtSoLuong_1.TextChanged += new System.EventHandler(this.TxtSoLuong_1_TextChanged);
+            this.TxtSoLuong_1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtSoLuong_1_KeyPress);
             // 
             // TxtGiaNhap_1
             // 
@@ -142,15 +146,16 @@
             this.label1.TabIndex = 16;
             this.label1.Text = "Số lượng :";
             // 
-            // DgvHoaDonNhap_1
+            // DgvHoaDonBan_1
             // 
-            this.DgvHoaDonNhap_1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvHoaDonNhap_1.Location = new System.Drawing.Point(12, 104);
-            this.DgvHoaDonNhap_1.Name = "DgvHoaDonNhap_1";
-            this.DgvHoaDonNhap_1.RowHeadersWidth = 51;
-            this.DgvHoaDonNhap_1.RowTemplate.Height = 24;
-            this.DgvHoaDonNhap_1.Size = new System.Drawing.Size(1034, 296);
-            this.DgvHoaDonNhap_1.TabIndex = 15;
+            this.DgvHoaDonBan_1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvHoaDonBan_1.Location = new System.Drawing.Point(12, 104);
+            this.DgvHoaDonBan_1.Name = "DgvHoaDonBan_1";
+            this.DgvHoaDonBan_1.RowHeadersWidth = 51;
+            this.DgvHoaDonBan_1.RowTemplate.Height = 24;
+            this.DgvHoaDonBan_1.Size = new System.Drawing.Size(1034, 296);
+            this.DgvHoaDonBan_1.TabIndex = 15;
+            this.DgvHoaDonBan_1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvHoaDonBan_1_CellClick);
             // 
             // SuaHoaDon_MatHangForm
             // 
@@ -160,7 +165,7 @@
             this.Controls.Add(this.TxtTongTienHDN_1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.BtnThoatCTHDN_1);
-            this.Controls.Add(this.BtnThemCTHDN_1);
+            this.Controls.Add(this.BtnSuaCTHDN_1);
             this.Controls.Add(this.TxtMaHH_1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.TxtMaHDN_1);
@@ -169,10 +174,11 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.DgvHoaDonNhap_1);
+            this.Controls.Add(this.DgvHoaDonBan_1);
             this.Name = "SuaHoaDon_MatHangForm";
-            this.Text = "SuaHoaDon_MatHangForm";
-            ((System.ComponentModel.ISupportInitialize)(this.DgvHoaDonNhap_1)).EndInit();
+            this.Text = "Cập nhật số lượng";
+            this.Load += new System.EventHandler(this.SuaHoaDon_MatHangForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.DgvHoaDonBan_1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,7 +189,7 @@
         private System.Windows.Forms.TextBox TxtTongTienHDN_1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button BtnThoatCTHDN_1;
-        private System.Windows.Forms.Button BtnThemCTHDN_1;
+        private System.Windows.Forms.Button BtnSuaCTHDN_1;
         private System.Windows.Forms.TextBox TxtMaHH_1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox TxtMaHDN_1;
@@ -192,6 +198,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView DgvHoaDonNhap_1;
+        private System.Windows.Forms.DataGridView DgvHoaDonBan_1;
     }
 }

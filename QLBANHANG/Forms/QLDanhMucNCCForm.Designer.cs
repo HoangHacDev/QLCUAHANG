@@ -57,6 +57,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.DgvHH_HD = new System.Windows.Forms.DataGridView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.TxtTongTien_HDN = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.TxtMaHDN = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.TxtGhiChu_DHN = new System.Windows.Forms.TextBox();
@@ -73,8 +75,6 @@
             this.DTPNgayLapHD = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.TxtTongTien_HDN = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNhaCungCap)).BeginInit();
@@ -99,13 +99,13 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.BtnLoadDSNCC);
             this.tabPage1.Controls.Add(this.BtnThoatFormNCC);
             this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.textBox8);
             this.tabPage1.Controls.Add(this.DgvNhaCungCap);
             this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -423,6 +423,22 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Thông Tin Hoá Đơn";
             // 
+            // TxtTongTien_HDN
+            // 
+            this.TxtTongTien_HDN.Location = new System.Drawing.Point(540, 116);
+            this.TxtTongTien_HDN.Name = "TxtTongTien_HDN";
+            this.TxtTongTien_HDN.Size = new System.Drawing.Size(228, 22);
+            this.TxtTongTien_HDN.TabIndex = 29;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(421, 119);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 16);
+            this.label5.TabIndex = 28;
+            this.label5.Text = "Tổng tiền :";
+            // 
             // TxtMaHDN
             // 
             this.TxtMaHDN.Location = new System.Drawing.Point(540, 77);
@@ -578,22 +594,6 @@
             this.label12.Size = new System.Drawing.Size(72, 16);
             this.label12.TabIndex = 6;
             this.label12.Text = "Ngày Lập :";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(421, 119);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 16);
-            this.label5.TabIndex = 28;
-            this.label5.Text = "Tổng tiền :";
-            // 
-            // TxtTongTien_HDN
-            // 
-            this.TxtTongTien_HDN.Location = new System.Drawing.Point(540, 116);
-            this.TxtTongTien_HDN.Name = "TxtTongTien_HDN";
-            this.TxtTongTien_HDN.Size = new System.Drawing.Size(228, 22);
-            this.TxtTongTien_HDN.TabIndex = 29;
             // 
             // QLDanhMucNCCForm
             // 
