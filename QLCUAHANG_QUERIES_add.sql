@@ -1255,7 +1255,7 @@ EXEC sp_HoaDon_CRUD @Action = 'INSERT_DETAIL',
                     @ID_HangHoa = 'HH002', 
                     @SoLuong = 10, 
                     @QuiCach = N'Hộp', 
-                    @GiaBan = 50000, 
+                    @GiaBan = 1500000, 
                     @BaoHanh = N'12 tháng';
 
 EXEC sp_HoaDon_CRUD @Action = 'UPDATE_DETAIL', 

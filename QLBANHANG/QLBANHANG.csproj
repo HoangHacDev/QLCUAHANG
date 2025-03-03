@@ -116,6 +116,12 @@
     <Compile Include="Forms\SuaCTHDN.Designer.cs">
       <DependentUpon>SuaCTHDN.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SuaHoaDon_MatHangForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SuaHoaDon_MatHangForm.Designer.cs">
+      <DependentUpon>SuaHoaDon_MatHangForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ThemDonHangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +135,7 @@
       <DependentUpon>ĐangNhapForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Handlers\HangHoaHandler.cs" />
+    <Compile Include="Handlers\HoaDonHandler.cs" />
     <Compile Include="Handlers\HoaDonNhapHandler.cs" />
     <Compile Include="Handlers\KhachHangHandler.cs" />
     <Compile Include="Handlers\NhaCungCapHandler.cs" />
@@ -136,6 +143,7 @@
     <Compile Include="Handlers\NhomHangHandler.cs" />
     <Compile Include="Models\ChiTietHoaDonNhapModel.cs" />
     <Compile Include="Models\HangHoaModel.cs" />
+    <Compile Include="Models\HoaDonModel.cs" />
     <Compile Include="Models\HoaDonNhapModel.cs" />
     <Compile Include="Models\KhachHangModel.cs" />
     <Compile Include="Models\NhaCungCapModel.cs" />
@@ -176,6 +184,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\HangHoaServices.cs" />
     <Compile Include="Services\HoaDonNhapService.cs" />
+    <Compile Include="Services\HoaDonServices.cs" />
     <Compile Include="Services\KhachHangServices.cs" />
     <Compile Include="Services\NhaCungCapServices.cs" />
     <Compile Include="Services\NhanVienServices.cs" />
@@ -203,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SuaCTHDN.resx">
       <DependentUpon>SuaCTHDN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SuaHoaDon_MatHangForm.resx">
+      <DependentUpon>SuaHoaDon_MatHangForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ThemDonHangNhap.resx">
       <DependentUpon>ThemDonHangNhap.cs</DependentUpon>
