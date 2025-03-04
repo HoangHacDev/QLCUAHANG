@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.Windows.Forms;
 using QLBANHANG.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace QLBANHANG
 {
@@ -17,6 +18,7 @@ namespace QLBANHANG
         private readonly KhachHangServices _khachHangServices;
         private readonly HangHoaServices _hangHoaServices;
         private bool isFieldsLocked = true; // Biến theo dõi trạng thái
+        private bool DaThuTien;
 
         public QLDanhMucHDForm()
         {
@@ -72,7 +74,7 @@ namespace QLBANHANG
             });
         }
 
-        private void LoadDanhSachNhanVien(ComboBox cboNhanVien)
+        private void LoadDanhSachNhanVien(System.Windows.Forms.ComboBox cboNhanVien)
         {
             try
             {
@@ -104,7 +106,7 @@ namespace QLBANHANG
                 MessageBox.Show($"Lỗi khi tải danh sách nhân viên: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void LoadDanhSachKhachHang(ComboBox cboKhachHang)
+        private void LoadDanhSachKhachHang(System.Windows.Forms.ComboBox cboKhachHang)
         {
             try
             {
@@ -137,7 +139,7 @@ namespace QLBANHANG
             }
         }
 
-        private void LoadDanhSachHangHoa(ComboBox cboHangHoa)
+        private void LoadDanhSachHangHoa(System.Windows.Forms.ComboBox cboHangHoa)
         {
             try
             {
@@ -183,6 +185,8 @@ namespace QLBANHANG
                 Txt_TenKH_3.Text = _hoaDonService.GetHoaDon()[e.RowIndex].TenKhachHang;
                 Txt_DiaChiKH_3.Text = _hoaDonService.GetHoaDon()[e.RowIndex].DiaChi;
                 Txt_SDTKH_3.Text = _hoaDonService.GetHoaDon()[e.RowIndex].SoDienThoai;
+
+                DaThuTien = _hoaDonService.GetHoaDon()[e.RowIndex].DaThuTien;
             }
         }
 
@@ -254,7 +258,7 @@ namespace QLBANHANG
             if (Dgv_HoaDon_3.CurrentRow != null)
             {
                 string id = Txt_MaHD_3.Text;
-                _hoaDonHandler.HandleInsertCTHD(id, Cb_MaHH_3, Txt_SDTKH_3, TxtGiaNhap_3, newId =>
+                _hoaDonHandler.HandleInsertCTHD(id, Cb_MaHH_3, TxtSoLuong_3, TxtGiaNhap_3, newId =>
                 {
                     _hoaDonHandler.HandleLoadData(Dgv_HoaDon_3);
                 });
@@ -327,6 +331,111 @@ namespace QLBANHANG
                 // Mở form mới và truyền mã hóa đơn 
                 SuaHoaDon_MatHangForm themCTHD = new SuaHoaDon_MatHangForm(idHoaDonBan, Dgv_HoaDon_3);
                 themCTHD.ShowDialog(); // Hiển thị form dưới dạng modal (hoặc Show() nếu không muốn modal)
+            }
+        }
+
+        private void Cb_MaHH_3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Kiểm tra xem có mục nào được chọn không
+                if (Cb_MaHH_3.SelectedIndex != -1 && Cb_MaHH_3.SelectedItem != null)
+                {
+                    // Lấy đối tượng HangHoaModel từ mục được chọn
+                    HangHoaModel selectedHangHoa = (HangHoaModel)Cb_MaHH_3.SelectedItem;
+
+                    // Gán giá trị vào các TextBox
+                    Txt_TenMH_3.Text = selectedHangHoa.TenHangHoa; // Tên mặt hàng
+                    TxtGiaNhap_3.Text = selectedHangHoa.GiaBan.ToString(); // Đơn giá
+                }
+                else
+                {
+                    // Nếu không có mục nào được chọn, xóa các TextBox
+                    Txt_TenMH_3.Text = string.Empty;
+                    TxtGiaNhap_3.Text = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi hiển thị thông tin hàng hóa: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void TxtSoLuong_3_TextChanged(object sender, EventArgs e)
+        {
+            TinhTongTien();
+        }
+
+        private void TinhTongTien()
+        {
+            try
+            {
+                // Lấy giá trị từ các textbox
+                decimal giaBan = string.IsNullOrEmpty(TxtGiaNhap_3.Text) ? 0 : Convert.ToDecimal(TxtGiaNhap_3.Text);
+                int soLuong = string.IsNullOrEmpty(TxtSoLuong_3.Text) ? 0 : Convert.ToInt32(TxtSoLuong_3.Text);
+
+                // Kiểm tra số âm (dự phòng nếu KeyPress bị bypass)
+                if (soLuong < 0)
+                {
+                    MessageBox.Show("Số lượng không thể là số âm!", "Cảnh báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    TxtSoLuong_3.Text = "0";
+                    soLuong = 0;
+                }
+
+                int? soLuongTon = 0;
+                if (!string.IsNullOrEmpty(Cb_MaHH_3.Text))
+                {
+                    var hangHoaList = _hangHoaServices.GetSoLuong(Cb_MaHH_3.Text);
+                    if (hangHoaList.Count > 0 && hangHoaList[0].SoLuong.HasValue)
+                    {
+                        soLuongTon = hangHoaList[0].SoLuong.Value;
+                    }
+                }
+
+                if (soLuongTon.HasValue && soLuong > soLuongTon.Value)
+                {
+                    MessageBox.Show($"Số lượng nhập ({soLuong}) vượt quá số lượng tồn kho ({soLuongTon})!",
+                        "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    TxtSoLuong_3.Text = soLuongTon.Value.ToString();
+                    soLuong = soLuongTon.Value;
+                }
+
+                // Nếu số lượng là 0 hoặc 1 thì giữ nguyên giá ban đầu
+                if (soLuong == 0 || soLuong == 1)
+                {
+                    Txt_Tong_3.Text = giaBan.ToString();
+                }
+                else
+                {
+                    // Tính tổng tiền = giá bán * số lượng
+                    decimal tongTien = giaBan * soLuong;
+                    Txt_Tong_3.Text = tongTien.ToString("N0");
+                }
+            }
+            catch (FormatException)
+            {
+                // Xử lý khi nhập sai định dạng số
+                Txt_Tong_3.Text = TxtGiaNhap_3.Text; // Giữ nguyên giá ban đầu nếu lỗi
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi khác
+                MessageBox.Show("Lỗi: " + ex.Message);
+            }
+        }
+
+        private void Btn_DaThu_3_Click(object sender, EventArgs e)
+        {
+            if (Dgv_HoaDon_3.CurrentRow != null)
+            {
+                string id = Txt_MaHD_3.Text;
+                bool currentDaThuTien = DaThuTien; // Giá trị hiện tại của DaThuTien
+                bool newDaThuTien = !currentDaThuTien; // Đảo ngược giá trị (true -> false, false -> true)
+                _hoaDonHandler.HandleInsertDaThuTien(id, newDaThuTien, () =>
+                {
+                    _hoaDonHandler.HandleLoadData(Dgv_HoaDon_3);
+                });
             }
         }
     }

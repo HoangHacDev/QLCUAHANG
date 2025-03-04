@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using QLBANHANG.Forms;
+using System;
 using System.Windows.Forms;
 
 namespace QLBANHANG
@@ -16,7 +14,7 @@ namespace QLBANHANG
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GiaoDienChinh());
+            Application.Run(new ĐangNhapForm());
         }
     }
 }

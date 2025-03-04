@@ -147,8 +147,10 @@
     <Compile Include="Models\HoaDonModel.cs" />
     <Compile Include="Models\HoaDonNhapModel.cs" />
     <Compile Include="Models\KhachHangModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NhaCungCapModel.cs" />
     <Compile Include="Models\NhanVienModel.cs" />
+    <Compile Include="Models\TaiKhoanNhanVienModel.cs" />
     <Compile Include="Services\ConnectionString.cs" />
     <Compile Include="Forms\QLDanhMucKHForm.cs">
       <SubType>Form</SubType>
@@ -219,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ThemDonHangNhap.resx">
       <DependentUpon>ThemDonHangNhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ĐangNhapForm.resx">
+      <DependentUpon>ĐangNhapForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

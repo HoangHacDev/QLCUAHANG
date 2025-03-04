@@ -40,7 +40,7 @@ CREATE TABLE tblLogin (
     ID_NhanVien VARCHAR(6) NOT NULL,  -- Khóa ngoại tham chiếu đến bảng tblNhanvien
     Username NVARCHAR(50) NOT NULL UNIQUE,  -- Tên đăng nhập (duy nhất)
     Password NVARCHAR(255) NOT NULL,  -- Mật khẩu (nên mã hóa)
-    Role NVARCHAR(50) NOT NULL CHECK (Role IN ('Admin', 'Manager', 'SalesStaff', 'CashierStaff', 'InventoryStaff', 'PurchasingStaff')),  -- Vai trò
+    Role NVARCHAR(50) CHECK (Role IN ('Admin', 'Manager', 'SalesStaff', 'CashierStaff', 'InventoryStaff', 'PurchasingStaff')),  -- Vai trò
     FOREIGN KEY (ID_NhanVien) REFERENCES tblNhanvien(ID_NhanVien)
 );
 
@@ -251,7 +251,9 @@ BEGIN
 		BEGIN
 			SELECT 
 				hh.ID_HangHoa, 
-				hh.SoLuong
+				hh.SoLuong,
+				hh.TenHangHoa,
+				hh.GiaBan
 			FROM tblHangHoa hh
 			LEFT JOIN tblNhomHang nh ON hh.ID_NhomHang = nh.ID_NhomHang
 			WHERE hh.ID_HangHoa = @ID_HangHoa;
@@ -260,7 +262,9 @@ BEGIN
 		BEGIN
 			SELECT 
 				hh.ID_HangHoa, 
-				hh.SoLuong
+				hh.SoLuong,
+                hh.TenHangHoa,
+				hh.GiaBan
 			FROM tblHangHoa hh
 			LEFT JOIN tblNhomHang nh ON hh.ID_NhomHang = nh.ID_NhomHang;
 		END
@@ -1224,7 +1228,7 @@ EXEC sp_KhachHang_CRUD @Action = 'UPDATE',
                        @Email = N'nvb@example.com';
 EXEC sp_KhachHang_CRUD @Action = 'DELETE', @ID_KhachHang = 'KH001';
 
-EXEC sp_Login_CRUD 'INSERT', NULL, 'NV001', 'user1', '123456', N'Admin';
+EXEC sp_Login_CRUD 'INSERT', NULL, 'NV001', 'user1', '123456', null;
 EXEC sp_Login_CRUD 'INSERT', NULL, 'NV002', 'user2', '123456', N'Manager';
 EXEC sp_Login_CRUD 'SELECT';
 EXEC sp_Login_CRUD 'UPDATE', 'LG001', 'NV0002', 'user2', 'newpass456', N'Manager';
@@ -1314,7 +1318,7 @@ EXEC sp_HoaDon_CRUD @Action = 'UPDATE_DETAIL',
                     @BaoHanh = N'24 tháng';
 
 EXEC sp_HoaDon_CRUD @Action = 'UPDATE', 
-                    @ID_HoaDonBan = 'HDB001', 
+                    @ID_HoaDonBan = 'HDB002', 
                     @DaThuTien = 1;
 
 EXEC sp_HoaDon_CRUD @Action = 'UPDATE', 

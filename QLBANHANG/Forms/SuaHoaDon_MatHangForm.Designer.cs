@@ -176,7 +176,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.DgvHoaDonBan_1);
             this.Name = "SuaHoaDon_MatHangForm";
-            this.Text = "Cập nhật số lượng";
+            this.Text = "Danh sách mặt hàng trong hoá đơn";
             this.Load += new System.EventHandler(this.SuaHoaDon_MatHangForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DgvHoaDonBan_1)).EndInit();
             this.ResumeLayout(false);

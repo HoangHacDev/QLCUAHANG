@@ -182,9 +182,7 @@ namespace QLBANHANG.Services
                         cmd.Parameters.AddWithValue("@ID_HoaDonBan", idHoaDonBan);
                         cmd.Parameters.AddWithValue("@ID_HangHoa", idHangHoa);
                         cmd.Parameters.AddWithValue("@SoLuong", soluong);
-                        cmd.Parameters.AddWithValue("@QuiCach", null);
                         cmd.Parameters.AddWithValue("@GiaBan", giaBan);
-                        cmd.Parameters.AddWithValue("@BaoHanh", null);
 
                         // Lấy mã vừa tạo. convert to string
                         string newId = cmd.ExecuteScalar()?.ToString();
@@ -274,6 +272,36 @@ namespace QLBANHANG.Services
                 catch (Exception ex)
                 {
                     MessageBox.Show("Lỗi khi cập nhật Hàng hoá" + ex.Message);
+                    return false;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public bool DaThuTienInsert(string idHoaDonBan, bool daThuTien)
+        {
+            using (SqlConnection conn = _connectionString.KetNoiSQLServer())
+            {
+                if (conn == null) return false;
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_HoaDon_CRUD", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Action", "UPDATE");
+                        cmd.Parameters.AddWithValue("@ID_HoaDonBan", idHoaDonBan);
+                        cmd.Parameters.AddWithValue("@DaThuTien", daThuTien);
+
+                        int rowsAffected = (int)cmd.ExecuteScalar();
+                        return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi Cập nhật Hoá Đơn: " + ex.Message);
                     return false;
                 }
                 finally

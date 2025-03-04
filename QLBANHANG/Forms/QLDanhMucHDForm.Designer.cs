@@ -54,7 +54,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.Btn_DaThu_3 = new System.Windows.Forms.Button();
             this.Btn_Status_3 = new System.Windows.Forms.Button();
             this.Btn_Them_CTHD_3 = new System.Windows.Forms.Button();
             this.TxtSoLuong_3 = new System.Windows.Forms.TextBox();
@@ -343,7 +343,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.Btn_DaThu_3);
             this.groupBox2.Controls.Add(this.Btn_Status_3);
             this.groupBox2.Controls.Add(this.Btn_Them_CTHD_3);
             this.groupBox2.Controls.Add(this.TxtSoLuong_3);
@@ -366,15 +366,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông tin đơn hàng :";
             // 
-            // button2
+            // Btn_DaThu_3
             // 
-            this.button2.Location = new System.Drawing.Point(726, 53);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(96, 28);
-            this.button2.TabIndex = 42;
-            this.button2.Text = "Thu / Huỷ";
-            this.button2.UseVisualStyleBackColor = true;
+            this.Btn_DaThu_3.Location = new System.Drawing.Point(726, 53);
+            this.Btn_DaThu_3.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_DaThu_3.Name = "Btn_DaThu_3";
+            this.Btn_DaThu_3.Size = new System.Drawing.Size(96, 28);
+            this.Btn_DaThu_3.TabIndex = 42;
+            this.Btn_DaThu_3.Text = "Thu / Huỷ";
+            this.Btn_DaThu_3.UseVisualStyleBackColor = true;
+            this.Btn_DaThu_3.Click += new System.EventHandler(this.Btn_DaThu_3_Click);
             // 
             // Btn_Status_3
             // 
@@ -389,7 +390,7 @@
             // 
             // Btn_Them_CTHD_3
             // 
-            this.Btn_Them_CTHD_3.Location = new System.Drawing.Point(530, 53);
+            this.Btn_Them_CTHD_3.Location = new System.Drawing.Point(543, 53);
             this.Btn_Them_CTHD_3.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Them_CTHD_3.Name = "Btn_Them_CTHD_3";
             this.Btn_Them_CTHD_3.Size = new System.Drawing.Size(76, 28);
@@ -404,6 +405,7 @@
             this.TxtSoLuong_3.Name = "TxtSoLuong_3";
             this.TxtSoLuong_3.Size = new System.Drawing.Size(130, 22);
             this.TxtSoLuong_3.TabIndex = 40;
+            this.TxtSoLuong_3.TextChanged += new System.EventHandler(this.TxtSoLuong_3_TextChanged);
             // 
             // TxtGiaNhap_3
             // 
@@ -438,6 +440,7 @@
             this.Cb_MaHH_3.Name = "Cb_MaHH_3";
             this.Cb_MaHH_3.Size = new System.Drawing.Size(130, 24);
             this.Cb_MaHH_3.TabIndex = 30;
+            this.Cb_MaHH_3.SelectedIndexChanged += new System.EventHandler(this.Cb_MaHH_3_SelectedIndexChanged);
             // 
             // Txt_Tong_3
             // 
@@ -581,7 +584,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button Btn_Them_CTHD_3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button Btn_DaThu_3;
         private System.Windows.Forms.Button Btn_Status_3;
     }
 }

@@ -165,6 +165,16 @@ namespace QLBANHANG.Handlers
             }
         }
 
+        public void HandleInsertDaThuTien(string idHoaDonBan, bool daThuTien, Action onSuccess)
+        {
+            bool updated = _hoaDonServices.DaThuTienInsert(idHoaDonBan, daThuTien);
+            if (!updated)
+            {
+                MessageBox.Show("Đã cập nhật hoá đơn !");
+                onSuccess?.Invoke();
+            }
+        }
+
         public void HandleLoadDataCTHD(DataGridView dgvHoaDon, string idHoaDonBan)
         {
             List<ChiTietHoaDonBanModel> hoaDons = _hoaDonServices.GetCTHoaDon(idHoaDonBan);
